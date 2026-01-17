@@ -21,5 +21,9 @@
         public string? Instructions { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+
+        public Guid CustomerId { get; set; }
+
+        public Customer Customer { get; set; } = null!;
     }
 }
