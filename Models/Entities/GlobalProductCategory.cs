@@ -43,5 +43,7 @@ namespace Models.Entities
         public Guid Id { get; set; }
 
         public required GlobalProductCategoryType Type { get; set; }
+
+        public ICollection<Brand> Brands { get; set; } = new List<Brand>();
     }
 }
