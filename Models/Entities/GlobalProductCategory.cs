@@ -47,5 +47,7 @@ namespace Models.Entities
         public ICollection<Brand> Brands { get; set; } = new List<Brand>();
 
         public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
+
+        public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }
 }

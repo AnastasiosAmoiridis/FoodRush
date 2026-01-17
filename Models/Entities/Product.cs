@@ -23,5 +23,7 @@
         public BrandProductCategory BrandProductCategory { get; set; } = null!;
 
         public ICollection<OrderLine> OrderLines { get; set; } = null!;
+
+        public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }
 }
