@@ -13,5 +13,9 @@
         public required double Longitude { get; set; }
 
         public string? PostalCode { get; set; }
+
+        public Guid StoreId { get; set; }
+
+        public Store Store { get; set; } = null!;
     }
 }
