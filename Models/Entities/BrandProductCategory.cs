@@ -19,5 +19,7 @@
         public Guid BrandId { get; set; }
 
         public Brand Brand { get; set; } = null!;
+
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }
