@@ -45,5 +45,7 @@ namespace Models.Entities
         public required GlobalProductCategoryType Type { get; set; }
 
         public ICollection<Brand> Brands { get; set; } = new List<Brand>();
+
+        public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
     }
 }

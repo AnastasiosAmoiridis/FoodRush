@@ -19,5 +19,7 @@
         public GlobalProductCategory PrimaryProductCategory { get; set; } = null!;
 
         public ICollection<Store> Stores { get; set; } = new List<Store>();
+
+        public ICollection<BrandProductCategory> BrandProductsCategories { get; set; } = new List<BrandProductCategory>();
     }
 }
