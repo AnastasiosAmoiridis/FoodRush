@@ -21,5 +21,7 @@
         public Guid BrandProductCategoryId { get; set; }
 
         public BrandProductCategory BrandProductCategory { get; set; } = null!;
+
+        public ICollection<OrderLine> OrderLines { get; set; } = null!;
     }
 }

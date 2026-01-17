@@ -21,5 +21,7 @@
         public Guid OrderStatusCodeId { get; set; }
 
         public Code OrderStatus { get; set; } = null!;
+
+        public ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
     }
 }
