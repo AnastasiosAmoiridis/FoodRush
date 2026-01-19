@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models.Entities;
 
 namespace Data
 {
@@ -7,6 +8,14 @@ namespace Data
         public FoodRushDbContext(DbContextOptions<FoodRushDbContext> options)
             : base(options)
         {
+        }
+
+        DbSet<Brand> Brands { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
