@@ -1,3 +1,6 @@
+using Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +18,14 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Best Food Ordering App"
     });
+});
+
+var connectionString = builder.Configuration.GetConnectionString("App")
+    ?? throw new InvalidOperationException("Connection string 'App' was not found");
+
+builder.Services.AddDbContext<FoodRushDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
 });
 
 var app = builder.Build();
