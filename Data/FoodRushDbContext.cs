@@ -20,6 +20,8 @@ namespace Data
 
         DbSet<Customer> Customers { get; set; }
 
+        DbSet<GlobalProductCategory> GlobalProductCategories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
