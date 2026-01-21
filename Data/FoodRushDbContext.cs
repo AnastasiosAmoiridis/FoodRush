@@ -28,6 +28,8 @@ namespace Data
 
         DbSet<OrderHeader> OrderHeaders { get; set; }
 
+        DbSet<OrderLine> OrderLines { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
