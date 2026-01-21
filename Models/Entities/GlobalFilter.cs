@@ -6,10 +6,10 @@
 
         public required string FilterConfig { get; set; }
 
-        public ICollection<GlobalProductCategory> GlobalProductCategories { get; set; } = new List<GlobalProductCategory>();
+        //public ICollection<GlobalProductCategory> GlobalProductCategories { get; set; } = new List<GlobalProductCategory>();
 
-        public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
+        //public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
 
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        //public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

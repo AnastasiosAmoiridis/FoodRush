@@ -10,8 +10,8 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        public Guid CodeId { get; set; }
+        //public Guid CodeId { get; set; }
 
-        public Code Code { get; set; } = null!;
+        //public Code Code { get; set; } = null!;
     }
 }

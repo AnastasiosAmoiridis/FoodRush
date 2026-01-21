@@ -12,8 +12,8 @@
 
         public required string Phone { get; set; }
 
-        public ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
+        //public ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
 
-        public ICollection<OrderHeader> OrderHeaders { get; set; } = new List<OrderHeader>();
+        //public ICollection<OrderHeader> OrderHeaders { get; set; } = new List<OrderHeader>();
     }
 }

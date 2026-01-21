@@ -18,12 +18,12 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public Guid BrandProductCategoryId { get; set; }
+        //public Guid BrandProductCategoryId { get; set; }
 
-        public BrandProductCategory BrandProductCategory { get; set; } = null!;
+        //public BrandProductCategory BrandProductCategory { get; set; } = null!;
 
-        public ICollection<OrderLine> OrderLines { get; set; } = null!;
+        //public ICollection<OrderLine> OrderLines { get; set; } = null!;
 
-        public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
+        //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }
 }

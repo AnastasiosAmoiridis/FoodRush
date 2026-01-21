@@ -14,12 +14,12 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public Guid PrimaryProductCategoryId { get; set; }
+        //public Guid PrimaryProductCategoryId { get; set; }
 
-        public GlobalProductCategory PrimaryProductCategory { get; set; } = null!;
+        //public GlobalProductCategory PrimaryProductCategory { get; set; } = null!;
 
-        public ICollection<Store> Stores { get; set; } = new List<Store>();
+        //public ICollection<Store> Stores { get; set; } = new List<Store>();
 
-        public ICollection<BrandProductCategory> BrandProductsCategories { get; set; } = new List<BrandProductCategory>();
+        //public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
     }
 }

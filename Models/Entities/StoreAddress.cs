@@ -14,8 +14,8 @@
 
         public string? PostalCode { get; set; }
 
-        public Guid StoreId { get; set; }
+        //public Guid StoreId { get; set; }
 
-        public Store Store { get; set; } = null!;
+       //public Store Store { get; set; } = null!;
     }
 }

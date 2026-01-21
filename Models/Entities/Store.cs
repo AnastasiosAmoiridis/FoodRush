@@ -20,12 +20,12 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public Guid BrandId { get; set; }
+        //public Guid BrandId { get; set; }
 
-        public Brand Brand { get; set; } = null!;
+        //public Brand Brand { get; set; } = null!;
 
-        public Guid StoreAddressId { get; set; }
+        //public Guid StoreAddressId { get; set; }
 
-        public StoreAddress StoreAddress { get; set; } = null!;
+        //public StoreAddress StoreAddress { get; set; } = null!;
     }
 }

@@ -12,16 +12,16 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        public Guid GlobalProductCategoryId { get; set; }
+        //public Guid GlobalProductCategoryId { get; set; }
 
-        public GlobalProductCategory GlobalProductCategory { get; set; } = null!;
+        //public GlobalProductCategory GlobalProductCategory { get; set; } = null!;
 
-        public Guid BrandId { get; set; }
+        //public Guid BrandId { get; set; }
 
-        public Brand Brand { get; set; } = null!;
+        //public Brand Brand { get; set; } = null!;
 
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        //public ICollection<Product> Products { get; set; } = new List<Product>();
 
-        public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
+        //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }
 }
