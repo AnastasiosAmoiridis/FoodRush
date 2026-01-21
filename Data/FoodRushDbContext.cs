@@ -32,6 +32,8 @@ namespace Data
 
         DbSet<CodeDefinition> CodeDefinitions { get; set; }
 
+        DbSet<Code> Codes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
