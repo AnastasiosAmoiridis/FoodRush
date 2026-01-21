@@ -22,6 +22,8 @@ namespace Data
 
         DbSet<GlobalProductCategory> GlobalProductCategories { get; set; }
 
+        DbSet<BrandProductCategory> BrandProductCategories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
