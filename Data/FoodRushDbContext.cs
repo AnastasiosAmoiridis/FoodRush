@@ -26,6 +26,8 @@ namespace Data
 
         DbSet<Product> Products { get; set; }
 
+        DbSet<OrderHeader> OrderHeaders { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
