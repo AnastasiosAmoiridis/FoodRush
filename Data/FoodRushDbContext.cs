@@ -34,6 +34,8 @@ namespace Data
 
         DbSet<Code> Codes { get; set; }
 
+        DbSet<GlobalFilter> GlobalFilters { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
