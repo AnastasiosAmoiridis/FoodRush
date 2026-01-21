@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common;
+using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 
 namespace Data.EntityConfigurations
@@ -11,20 +12,13 @@ namespace Data.EntityConfigurations
 
             builder.HasKey(b => b.Id);
 
-            // Name property
             builder.Property(b => b.Name)
-                .IsRequired()
-                .HasMaxLength(200);
+                   .IsRequired()
+                   .HasMaxLength(EntityConstraints.MAX_NAME_LENGTH);
 
-            builder.HasIndex(b => b.Id)
-                .IsUnique();
-
-            // LogoUrl property
             builder.Property(b => b.LogoUrl)
-                .IsRequired();
-
-            builder.HasIndex(b => b.LogoUrl)
-                .IsUnique();
+                   .IsRequired()
+                   .HasMaxLength(EntityConstraints.MAX_URL_LENGTH);
         }
     }
 }
