@@ -32,6 +32,11 @@ namespace Data.EntityConfigurations
 
             builder.HasIndex(s => s.Phone)
                    .IsUnique();
+
+            builder.HasOne(s => s.Brand)
+                   .WithMany(b => b.Stores)
+                   .HasForeignKey(s => s.BrandId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
