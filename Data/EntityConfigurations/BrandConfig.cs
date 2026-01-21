@@ -12,6 +12,9 @@ namespace Data.EntityConfigurations
 
             builder.HasKey(b => b.Id);
 
+            builder.Property(b => b.Id)
+                   .HasDefaultValueSql(EntityConstraints.DEFAULT_SQL_KEY_VALUE);
+
             builder.Property(b => b.Name)
                    .IsRequired()
                    .HasMaxLength(EntityConstraints.MAX_NAME_LENGTH);
