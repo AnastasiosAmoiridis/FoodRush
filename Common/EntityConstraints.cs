@@ -8,6 +8,8 @@
 
         public const byte MAX_NAME_LENGTH = 200;
 
+        public const byte MAX_CODE_DEFINITION_DESCRIPTION_LENGTH = 100;
+
         public const byte MAX_CITY_LENGTH = 200;
 
         public const byte MAX_GLOBAL_PRODUCT_CATEGORY_TYPE_LENGTH = 100;
