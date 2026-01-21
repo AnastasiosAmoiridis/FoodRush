@@ -16,6 +16,8 @@ namespace Data
 
         DbSet<Brand> Brands { get; set; }
 
+        DbSet<CustomerAddress> CustomerAddresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
