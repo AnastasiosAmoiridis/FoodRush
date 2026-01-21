@@ -10,7 +10,7 @@ namespace Data
         {
         }
 
-        DbSet<Brand> Brands { get; set; }
+        DbSet<StoreAddress> StoreAddresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
