@@ -30,6 +30,11 @@ namespace Data.EntityConfigurations
 
             builder.Property(sa => sa.Longitude)
                    .HasPrecision(9, 6);
+
+            builder.HasOne(sa => sa.Store)
+                   .WithOne(s => s.StoreAddress)
+                   .HasForeignKey<StoreAddress>(sa => sa.StoreId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
