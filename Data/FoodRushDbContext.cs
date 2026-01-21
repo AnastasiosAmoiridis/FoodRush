@@ -12,6 +12,8 @@ namespace Data
 
         DbSet<StoreAddress> StoreAddresses { get; set; }
 
+        DbSet<Store> Stores { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
