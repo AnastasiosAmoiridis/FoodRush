@@ -14,9 +14,9 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        //public Guid PrimaryProductCategoryId { get; set; }
+        public Guid PrimaryProductCategoryId { get; set; }
 
-        //public GlobalProductCategory PrimaryProductCategory { get; set; } = null!;
+        public GlobalProductCategory PrimaryProductCategory { get; set; } = null!;
 
         public ICollection<Store> Stores { get; set; } = new List<Store>();
 

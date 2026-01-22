@@ -22,6 +22,11 @@ namespace Data.EntityConfigurations
             builder.Property(b => b.LogoUrl)
                    .IsRequired()
                    .HasMaxLength(EntityConstraints.MAX_URL_LENGTH);
+
+            builder.HasOne(b => b.PrimaryProductCategory)
+                   .WithMany(gpc => gpc.Brands)
+                   .HasForeignKey(b => b.PrimaryProductCategoryId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
