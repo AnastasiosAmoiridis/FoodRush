@@ -12,9 +12,9 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        //public Guid GlobalProductCategoryId { get; set; }
+        public Guid GlobalProductCategoryId { get; set; }
 
-        //public GlobalProductCategory GlobalProductCategory { get; set; } = null!;
+        public GlobalProductCategory GlobalProductCategory { get; set; } = null!;
 
         public Guid BrandId { get; set; }
 

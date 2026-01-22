@@ -24,6 +24,11 @@ namespace Data.EntityConfigurations
                    .WithMany(b => b.BrandProductCategories)
                    .HasForeignKey(bpc => bpc.BrandId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(bpc => bpc.GlobalProductCategory)
+                   .WithMany(gpc => gpc.BrandProductCategories)
+                   .HasForeignKey(bpc => bpc.GlobalProductCategoryId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
