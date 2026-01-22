@@ -10,7 +10,7 @@ namespace Models.Entities
 
         //public ICollection<GlobalProductCategory> GlobalProductCategories { get; set; } = new List<GlobalProductCategory>();
 
-        //public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
+        public ICollection<GlobalFilterBrandCategoryOverride> GlobalFilterBrandCategoryOverrides { get; set; } = new List<GlobalFilterBrandCategoryOverride>();
 
         public ICollection<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; } = new List<GlobalFilterProductOverride>();
     }
