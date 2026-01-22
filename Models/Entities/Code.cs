@@ -15,5 +15,7 @@
         public ICollection<CodeDefinition> CodeDefinitions { get; set; } = new List<CodeDefinition>();
 
         public ICollection<OrderHeader> PaymentOrderHeaders { get; set; } = new List<OrderHeader>();
+
+        public ICollection<OrderHeader> OrderStatusOrderHeaders { get; set; } = new List<OrderHeader>();
     }
 }

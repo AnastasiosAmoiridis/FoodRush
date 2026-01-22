@@ -18,9 +18,9 @@
 
         public Code PaymentCode { get; set; } = null!;
 
-        //public Guid OrderStatusCodeId { get; set; }
+        public Guid OrderStatusCodeId { get; set; }
 
-        //public Code OrderStatus { get; set; } = null!;
+        public Code OrderStatus { get; set; } = null!;
 
         public ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
     }
