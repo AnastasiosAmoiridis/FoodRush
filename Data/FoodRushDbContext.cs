@@ -40,6 +40,8 @@ namespace Data
         // Junction tables
         DbSet<OrderLineProduct> OrderLineProducts { get; set; }
 
+        DbSet<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);

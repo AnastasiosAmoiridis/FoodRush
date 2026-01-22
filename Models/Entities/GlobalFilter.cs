@@ -1,4 +1,6 @@
-﻿namespace Models.Entities
+﻿using Models.Junctions;
+
+namespace Models.Entities
 {
     public class GlobalFilter
     {
@@ -10,6 +12,6 @@
 
         //public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
 
-        //public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; } = new List<GlobalFilterProductOverride>();
     }
 }

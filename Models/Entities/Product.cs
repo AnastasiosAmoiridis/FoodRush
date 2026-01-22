@@ -26,6 +26,6 @@ namespace Models.Entities
 
         public ICollection<OrderLineProduct> OrderLineProducts { get; set; } = new List<OrderLineProduct>();
 
-        //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
+        public ICollection<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; } = new List<GlobalFilterProductOverride>();
     }
 }
