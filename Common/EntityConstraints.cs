@@ -36,11 +36,14 @@
 
         public const string CK_STORE_RATING_BOUNDARIES = "CK_Store_Rating_Boundaries";
 
+        public const string CK_ORDERLINE_PRODUCT_PRODUCTCOUNT_MIN = "CK_OrderLineProduct_ProductCount_Min";
+
         public static readonly Dictionary<string, string> CheckContraints = new Dictionary<string, string>
         {
             {CK_PRODUCT_BASEPRICE_MIN, "[BasePrice] >= 0.0" },
             {CK_STORE_PHONE_MIN, "LEN([Phone]) >= 10" },
-            {CK_STORE_RATING_BOUNDARIES, "[Rating] >= 0.0 AND [Rating] <= 5.0" }
+            {CK_STORE_RATING_BOUNDARIES, "[Rating] >= 0.0 AND [Rating] <= 5.0" },
+            {CK_ORDERLINE_PRODUCT_PRODUCTCOUNT_MIN, "[ProductCount] >= 1" },
         };
     }
 }
