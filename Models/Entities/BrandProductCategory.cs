@@ -20,7 +20,7 @@
 
         public Brand Brand { get; set; } = null!;
 
-        //public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
 
         //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }

@@ -23,7 +23,12 @@ namespace Data.EntityConfigurations
                    .HasMaxLength(EntityConstraints.MAX_NAME_LENGTH);
 
             builder.Property(p => p.ImageUrl)
-                   .HasMaxLength (EntityConstraints.MAX_URL_LENGTH);
+                   .HasMaxLength(EntityConstraints.MAX_URL_LENGTH);
+
+            builder.HasOne(p => p.BrandProductCategory)
+                   .WithMany(bpc => bpc.Products)
+                   .HasForeignKey(p => p.BrandProductCategoryId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
