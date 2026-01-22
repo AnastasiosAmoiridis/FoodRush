@@ -19,6 +19,11 @@ namespace Data.EntityConfigurations
             builder.Property(bpc => bpc.Name)
                    .IsRequired()
                    .HasMaxLength(EntityConstraints.MAX_NAME_LENGTH);
+
+            builder.HasOne(bpc => bpc.Brand)
+                   .WithMany(b => b.BrandProductCategories)
+                   .HasForeignKey(bpc => bpc.BrandId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

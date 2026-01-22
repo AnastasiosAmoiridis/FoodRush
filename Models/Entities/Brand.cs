@@ -20,6 +20,6 @@
 
         public ICollection<Store> Stores { get; set; } = new List<Store>();
 
-        //public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
+        public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
     }
 }

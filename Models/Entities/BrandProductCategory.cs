@@ -16,9 +16,9 @@
 
         //public GlobalProductCategory GlobalProductCategory { get; set; } = null!;
 
-        //public Guid BrandId { get; set; }
+        public Guid BrandId { get; set; }
 
-        //public Brand Brand { get; set; } = null!;
+        public Brand Brand { get; set; } = null!;
 
         //public ICollection<Product> Products { get; set; } = new List<Product>();
 
