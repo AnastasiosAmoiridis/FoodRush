@@ -10,9 +10,9 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        //public Guid CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
-        //public Customer Customer { get; set; } = null!;
+        public Customer Customer { get; set; } = null!;
 
         //public Guid PaymentCodeId { get; set; }
 

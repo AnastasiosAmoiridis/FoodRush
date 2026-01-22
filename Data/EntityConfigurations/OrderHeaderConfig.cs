@@ -18,6 +18,11 @@ namespace Data.EntityConfigurations
 
             builder.Property(oh => oh.Notes)
                    .HasMaxLength(EntityConstraints.MAX_INSTRUCTION_LENGTH);
+
+            builder.HasOne(oh => oh.Customer)
+                   .WithMany(c => c.OrderHeaders)
+                   .HasForeignKey(oh => oh.CustomerId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
