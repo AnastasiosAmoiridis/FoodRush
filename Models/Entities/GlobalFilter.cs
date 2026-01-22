@@ -8,7 +8,7 @@ namespace Models.Entities
 
         public required string FilterConfig { get; set; }
 
-        //public ICollection<GlobalProductCategory> GlobalProductCategories { get; set; } = new List<GlobalProductCategory>();
+        public ICollection<GlobalFilterGlobalCategory> GlobalFilterGlobalCategories { get; set; } = new List<GlobalFilterGlobalCategory>();
 
         public ICollection<GlobalFilterBrandCategoryOverride> GlobalFilterBrandCategoryOverrides { get; set; } = new List<GlobalFilterBrandCategoryOverride>();
 

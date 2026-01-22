@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Models.Junctions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models.Entities
 {
@@ -48,6 +49,6 @@ namespace Models.Entities
 
         public ICollection<BrandProductCategory> BrandProductCategories { get; set; } = new List<BrandProductCategory>();
 
-        //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
+        public ICollection<GlobalFilterGlobalCategory> GlobalFilterGlobalCategories { get; set; } = new List<GlobalFilterGlobalCategory>();
     }
 }

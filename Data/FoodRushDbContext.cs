@@ -44,6 +44,8 @@ namespace Data
 
         DbSet<GlobalFilterBrandCategoryOverride> GlobalFilterBrandCategoryOverrides { get; set; }
 
+        DbSet<GlobalFilterGlobalCategory> GlobalFilterGlobalCategories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodRushDbContext).Assembly);
