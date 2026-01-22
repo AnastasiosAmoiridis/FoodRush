@@ -1,4 +1,6 @@
-﻿namespace Models.Entities
+﻿using Models.Junctions;
+
+namespace Models.Entities
 {
     public class Product
     {
@@ -22,7 +24,7 @@
 
         public BrandProductCategory BrandProductCategory { get; set; } = null!;
 
-        //public ICollection<OrderLine> OrderLines { get; set; } = null!;
+        public ICollection<OrderLineProduct> OrderLineProducts { get; set; } = new List<OrderLineProduct>();
 
         //public ICollection<GlobalFilter> GlobalFilters { get; set; } = new List<GlobalFilter>();
     }

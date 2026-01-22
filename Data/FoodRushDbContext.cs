@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Entities;
+using Models.Junctions;
 
 namespace Data
 {
@@ -35,6 +36,9 @@ namespace Data
         DbSet<Code> Codes { get; set; }
 
         DbSet<GlobalFilter> GlobalFilters { get; set; }
+
+        // Junction tables
+        DbSet<OrderLineProduct> OrderLineProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

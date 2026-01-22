@@ -1,4 +1,6 @@
-﻿namespace Models.Entities
+﻿using Models.Junctions;
+
+namespace Models.Entities
 {
     public class OrderLine
     {
@@ -10,6 +12,6 @@
 
         public OrderHeader OrderHeader { get; set; } = null!;
 
-        //public ICollection<Product> Products { get; set; } = new List<Product>();
+        public ICollection<OrderLineProduct> OrderLineProducts { get; set; } = new List<OrderLineProduct>();
     }
 }
