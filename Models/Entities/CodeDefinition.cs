@@ -10,8 +10,6 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        public Guid CodeId { get; set; }
-
-        public Code Code { get; set; } = null!;
+        public ICollection<Code> Codes { get; set; } = new List<Code>();
     }
 }

@@ -20,6 +20,11 @@ namespace Data.EntityConfigurations
                    .HasMaxLength(EntityConstraints.MAX_CODE_DEFINITION_DESCRIPTION_LENGTH);
 
             builder.HasAlternateKey(c => c.Name);
+
+            builder.HasOne(c => c.CodeDefinition)
+                   .WithMany(cd => cd.Codes)
+                   .HasForeignKey(c => c.CodeDefinitionId)
+                   .OnDelete(DeleteBehavior.Restrict);  
         }
     }
 }

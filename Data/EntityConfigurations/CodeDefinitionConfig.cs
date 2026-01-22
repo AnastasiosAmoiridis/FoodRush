@@ -18,11 +18,6 @@ namespace Data.EntityConfigurations
 
             builder.Property(cd => cd.Description)
                    .HasMaxLength(EntityConstraints.MAX_CODE_DEFINITION_DESCRIPTION_LENGTH);
-
-            builder.HasOne(cd => cd.Code)
-                   .WithMany(c => c.CodeDefinitions)
-                   .HasForeignKey(cd => cd.CodeId)
-                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
