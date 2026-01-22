@@ -22,8 +22,8 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        //public Guid CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
-        //public Customer Customer { get; set; } = null!;
+        public Customer Customer { get; set; } = null!;
     }
 }
