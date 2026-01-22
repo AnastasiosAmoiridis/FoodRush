@@ -23,6 +23,11 @@ namespace Data.EntityConfigurations
                    .WithMany(c => c.OrderHeaders)
                    .HasForeignKey(oh => oh.CustomerId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(oh => oh.PaymentCode)
+                   .WithMany(c => c.PaymentOrderHeaders)
+                   .HasForeignKey(oh => oh.PaymentCodeId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

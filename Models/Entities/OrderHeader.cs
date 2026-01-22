@@ -14,9 +14,9 @@
 
         public Customer Customer { get; set; } = null!;
 
-        //public Guid PaymentCodeId { get; set; }
+        public Guid PaymentCodeId { get; set; }
 
-        //public Code PaymentCode { get; set; } = null!;
+        public Code PaymentCode { get; set; } = null!;
 
         //public Guid OrderStatusCodeId { get; set; }
 

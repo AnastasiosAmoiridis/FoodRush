@@ -13,5 +13,7 @@
         public bool IsActive { get; set; } = true;
 
         public ICollection<CodeDefinition> CodeDefinitions { get; set; } = new List<CodeDefinition>();
+
+        public ICollection<OrderHeader> PaymentOrderHeaders { get; set; } = new List<OrderHeader>();
     }
 }
