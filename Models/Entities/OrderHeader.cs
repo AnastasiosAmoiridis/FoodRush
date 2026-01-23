@@ -10,6 +10,8 @@
 
         public DateTime? ResolvedAt { get; set; }
 
+        public decimal? Rating { get; set; } 
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Guid CustomerId { get; set; }
