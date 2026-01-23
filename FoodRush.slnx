@@ -2,6 +2,7 @@
   <Folder Name="/Domain/">
     <Project Path="Common/Common.csproj" Id="849e74d1-5fe4-42f9-8e14-7f893308da0d" />
     <Project Path="Models/Models.csproj" />
+    <Project Path="Services/Services.csproj" Id="b04151e8-b393-4e31-8f0f-cd40faf2b4b8" />
   </Folder>
   <Project Path="Data/Data.csproj" Id="849f8d40-3d53-49df-94ff-c5de8fdf351d" />
   <Project Path="FoodRush/FoodRush.csproj" />
