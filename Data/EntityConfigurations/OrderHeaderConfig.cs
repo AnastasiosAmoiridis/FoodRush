@@ -9,7 +9,10 @@ namespace Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<OrderHeader> builder)
         {
-            builder.ToTable("OrderHeaders");
+            builder.ToTable("OrderHeaders", t =>
+            {
+                t.HasCheckConstraint(EntityConstraints.CK_ORDERHEADER_RATING_BOUNDARIES, EntityConstraints.CheckContraints[EntityConstraints.CK_ORDERHEADER_RATING_BOUNDARIES]);
+            });
 
             builder.HasKey(oh => oh.Id);
 
@@ -18,6 +21,9 @@ namespace Data.EntityConfigurations
 
             builder.Property(oh => oh.Notes)
                    .HasMaxLength(EntityConstraints.MAX_INSTRUCTION_LENGTH);
+
+            builder.Property(oh => oh.Rating)
+                   .HasPrecision(3, 2);
 
             builder.HasOne(oh => oh.Customer)
                    .WithMany(c => c.OrderHeaders)
