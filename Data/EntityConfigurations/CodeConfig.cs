@@ -19,7 +19,7 @@ namespace Data.EntityConfigurations
             builder.Property(c => c.Description)
                    .HasMaxLength(EntityConstraints.MAX_CODE_DEFINITION_DESCRIPTION_LENGTH);
 
-            builder.HasAlternateKey(c => c.Name);
+            builder.HasAlternateKey(c => c.Description);
 
             builder.HasOne(c => c.CodeDefinition)
                    .WithMany(cd => cd.Codes)
