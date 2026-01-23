@@ -12,7 +12,6 @@ namespace Data.EntityConfigurations
             builder.ToTable("Stores", t =>
             {
                 t.HasCheckConstraint(EntityConstraints.CK_STORE_PHONE_MIN, EntityConstraints.CheckContraints[EntityConstraints.CK_STORE_PHONE_MIN]);
-                t.HasCheckConstraint(EntityConstraints.CK_STORE_RATING_BOUNDARIES, EntityConstraints.CheckContraints[EntityConstraints.CK_STORE_RATING_BOUNDARIES]);
             });
 
             builder.HasKey(s => s.Id);
