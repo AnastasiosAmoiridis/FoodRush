@@ -12,6 +12,8 @@ namespace Data.EntityConfigurations
 
             builder.HasKey(b => b.Id);
 
+            builder.HasAlternateKey(b => b.Name);
+
             builder.Property(b => b.Id)
                    .HasDefaultValueSql(EntityConstraints.DEFAULT_SQL_KEY_VALUE);
 
