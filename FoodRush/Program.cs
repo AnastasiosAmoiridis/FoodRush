@@ -23,10 +23,7 @@ builder.Services.AddSwaggerGen(options =>
 var connectionString = builder.Configuration.GetConnectionString("App")
     ?? throw new InvalidOperationException("Connection string 'App' was not found");
 
-builder.Services.AddDbContext<FoodRushDbContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-});
+builder.Services.AddData(connectionString);
 
 var app = builder.Build();
 
