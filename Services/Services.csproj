@@ -13,6 +13,9 @@
   <ItemGroup>
     <Folder Include="Mapping\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>
