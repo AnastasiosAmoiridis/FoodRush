@@ -13,6 +13,9 @@ namespace Data.EntityConfigurations
 
             builder.HasKey(bpc => bpc.Id);
 
+            builder.HasIndex(bpc => new { bpc.Name, bpc.BrandId })
+                   .IsUnique();
+
             builder.Property(bpc => bpc.Id)
                    .HasDefaultValueSql(EntityConstraints.DEFAULT_SQL_KEY_VALUE);
 
