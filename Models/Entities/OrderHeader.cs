@@ -8,6 +8,8 @@
 
         public string? Notes { get; set; }
 
+        public DateTime? ResolvedAt { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Guid CustomerId { get; set; }
