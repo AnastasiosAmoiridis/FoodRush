@@ -11,40 +11,40 @@ namespace Data
         {
         }
 
-        DbSet<StoreAddress> StoreAddresses { get; set; }
+        public DbSet<StoreAddress> StoreAddresses { get; set; }
 
-        DbSet<Store> Stores { get; set; }
+        public DbSet<Store> Stores { get; set; }
 
-        DbSet<Brand> Brands { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
-        DbSet<CustomerAddress> CustomerAddresses { get; set; }
+        public DbSet<CustomerAddress> CustomerAddresses { get; set; }
 
-        DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
-        DbSet<GlobalProductCategory> GlobalProductCategories { get; set; }
+        public DbSet<GlobalProductCategory> GlobalProductCategories { get; set; }
 
-        DbSet<BrandProductCategory> BrandProductCategories { get; set; }
+        public DbSet<BrandProductCategory> BrandProductCategories { get; set; }
 
-        DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
 
-        DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
 
-        DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<OrderLine> OrderLines { get; set; }
 
-        DbSet<CodeDefinition> CodeDefinitions { get; set; }
+        public DbSet<CodeDefinition> CodeDefinitions { get; set; }
 
-        DbSet<Code> Codes { get; set; }
+        public DbSet<Code> Codes { get; set; }
 
-        DbSet<GlobalFilter> GlobalFilters { get; set; }
+        public DbSet<GlobalFilter> GlobalFilters { get; set; }
 
         // Junction tables
-        DbSet<OrderLineProduct> OrderLineProducts { get; set; }
+        public DbSet<OrderLineProduct> OrderLineProducts { get; set; }
 
-        DbSet<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; }
+        public DbSet<GlobalFilterProductOverride> GlobalFilterProductOverrides { get; set; }
 
-        DbSet<GlobalFilterBrandCategoryOverride> GlobalFilterBrandCategoryOverrides { get; set; }
+        public DbSet<GlobalFilterBrandCategoryOverride> GlobalFilterBrandCategoryOverrides { get; set; }
 
-        DbSet<GlobalFilterGlobalCategory> GlobalFilterGlobalCategories { get; set; }
+        public DbSet<GlobalFilterGlobalCategory> GlobalFilterGlobalCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

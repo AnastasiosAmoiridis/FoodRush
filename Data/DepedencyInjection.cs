@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Interfaces;
+using Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Data
@@ -12,6 +14,13 @@ namespace Data
                 options.UseSqlServer(connectionString);
             });
 
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<IBrandRepository, BrandRepository>();
+            
             return services;
         }
     }
