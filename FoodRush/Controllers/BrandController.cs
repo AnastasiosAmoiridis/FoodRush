@@ -2,6 +2,7 @@
 using Services.DTOs;
 using Services.Interfaces;
 using Results;
+using Results.Enums;
 
 namespace FoodRush.Controllers
 {
@@ -30,6 +31,30 @@ namespace FoodRush.Controllers
                 return Ok(response);
             }
             return StatusCode((int)response.Code, response.ErrorDetails);
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ListResult<BrandDto>>> GetAllAsync()
+        {
+            ListResult<BrandDto> response = await _service.GetAllAsync();
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+
+            if (response.HasValidationErrors)
+            {
+                return BadRequest(response.ValidationErrors);
+            }
+            
+            return Problem(
+                detail: response.ErrorDetails,
+                statusCode: StatusCodes.Status500InternalServerError
+            );
         }
     }
 }
