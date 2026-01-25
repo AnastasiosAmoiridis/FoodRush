@@ -2,7 +2,6 @@
 using Data.Interfaces;
 using Models.Entities;
 using Results;
-using Results.Enums;
 using Services.DTOs;
 using Services.Interfaces;
 
@@ -22,25 +21,12 @@ namespace Services.Services
         public async Task<Result<BrandDto>> GetByNameAsync(string name)
         {
             Result<BrandDto> response = new Result<BrandDto>();
-            try
-            {
-                Brand? brand = await _repository.GetByNameAsync(name);
 
-                if (brand == null)
-                {
-                    response.FailWithCode(HttpResultCode.NotFound, $"Could not find Brand '{name}'");
-                    return response;
-                }
+            Brand? brand = await _repository.GetByNameAsync(name);
 
-                response.SetSuccess(_mapper.Map<BrandDto>(brand));
-                return response;
+            response.SetSuccess(_mapper.Map<BrandDto>(brand));
 
-            }
-            catch
-            {
-                response.FailWithCode(HttpResultCode.InternalServerError, $"An error occured while fetching Brand '{name}'");
-                return response;
-            }
+            return response;
         }
 
         public async Task<ListResult<BrandDto>> GetAllAsync()
@@ -54,8 +40,6 @@ namespace Services.Services
 
             return response;
         }
-
-
     }
 }
 

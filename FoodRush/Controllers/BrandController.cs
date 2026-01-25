@@ -2,7 +2,6 @@
 using Services.DTOs;
 using Services.Interfaces;
 using Results;
-using Results.Enums;
 
 namespace FoodRush.Controllers
 {
@@ -24,13 +23,13 @@ namespace FoodRush.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Result<BrandDto>>> GetByNameAsync([FromRoute] string name)
         {
-
             Result<BrandDto>? response = await _service.GetByNameAsync(name);
-            if (response.Success)
+            if (response.Item == null)
             {
-                return Ok(response);
+                return NotFound("Could not find a Brand with that name");
             }
-            return StatusCode((int)response.Code, response.ErrorDetails);
+
+            return Ok(response);
         }
 
         [HttpGet]
