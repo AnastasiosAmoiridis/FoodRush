@@ -28,5 +28,12 @@ namespace Data.Repositories
 
             return brand;
         }
+
+        public async Task<Brand> GetByIdAsync(Guid id)
+        {
+            Brand? brand = await _query.SingleOrDefaultAsync(b => b.Id == id);
+
+            return brand;
+        }
     }
 }

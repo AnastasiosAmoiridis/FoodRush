@@ -7,6 +7,8 @@ namespace Services.Interfaces
     {
         Task<Result<BrandDto>> GetByNameAsync(string name);
 
+        Task<Result<BrandDto>> GetByIdAsync(Guid id);
+
         Task<ListResult<BrandDto>> GetAllAsync();
     }
 }

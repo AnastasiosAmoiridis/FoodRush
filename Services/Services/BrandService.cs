@@ -29,6 +29,17 @@ namespace Services.Services
             return response;
         }
 
+        public async Task<Result<BrandDto>> GetByIdAsync(Guid id)
+        {
+            Result<BrandDto> response = new Result<BrandDto>();
+
+            Brand? brand = await _repository.GetByIdAsync(id);
+
+            response.SetSuccess(_mapper.Map<BrandDto>(brand));
+
+            return response;
+        }
+
         public async Task<ListResult<BrandDto>> GetAllAsync()
         {
 

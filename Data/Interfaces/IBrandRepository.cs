@@ -6,6 +6,8 @@ namespace Data.Interfaces
     {
         public Task<Brand> GetByNameAsync(string name);
 
+        public Task<Brand> GetByIdAsync(Guid id);
+
         public Task<List<Brand>> GetAllAsync();
     }
 }
