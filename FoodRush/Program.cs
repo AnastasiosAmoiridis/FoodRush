@@ -1,5 +1,6 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,10 @@ var connectionString = builder.Configuration.GetConnectionString("App")
     ?? throw new InvalidOperationException("Connection string 'App' was not found");
 
 builder.Services.AddData(connectionString);
+
+builder.Services.AddServices();
+
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 
