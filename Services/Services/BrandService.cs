@@ -42,7 +42,6 @@ namespace Services.Services
 
         public async Task<ListResult<BrandDto>> GetAllAsync()
         {
-
             ListResult<BrandDto> response = new ListResult<BrandDto>();
 
             List<Brand> brands = await _repository.GetAllAsync();
