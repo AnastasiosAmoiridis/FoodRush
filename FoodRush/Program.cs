@@ -1,4 +1,6 @@
 using Data;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services;
 
@@ -43,6 +45,33 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = "";
     });
 }
+
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
+        var exception = exceptionFeature?.Error;
+
+        var logger = context.RequestServices
+            .GetRequiredService<ILogger<Program>>();
+
+        logger.LogError(exception, "Unhandled exception occurred while processing request: {Path}",
+            context.Request.Path);
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/problem+json";
+
+        var problem = new ProblemDetails
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Internal Server Error",
+            Detail = "An unexpected error occurred. Please try again later.",
+            Instance = context.Request.Path
+        };
+        await context.Response.WriteAsJsonAsync(problem);
+    });
+});
 
 app.UseHttpsRedirection();
 
