@@ -9,8 +9,8 @@ namespace Services.Services
 {
     public class BrandService : IBrandService
     {
-        IBrandRepository _repository;
-        IMapper _mapper;
+        readonly IBrandRepository _repository;
+        readonly IMapper _mapper;
 
         public BrandService(IBrandRepository repository, IMapper mapper)
         {
