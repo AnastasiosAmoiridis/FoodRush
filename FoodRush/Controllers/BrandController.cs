@@ -36,7 +36,6 @@ namespace FoodRush.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ListResult<BrandDto>>> GetAllAsync()
         {
@@ -46,11 +45,6 @@ namespace FoodRush.Controllers
                 return Ok(response);
             }
 
-            if (response.HasValidationErrors)
-            {
-                return BadRequest(response.ValidationErrors);
-            }
-            
             return Problem(
                 detail: response.ErrorDetails,
                 statusCode: StatusCodes.Status500InternalServerError
