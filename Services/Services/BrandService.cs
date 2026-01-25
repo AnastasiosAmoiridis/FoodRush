@@ -42,5 +42,20 @@ namespace Services.Services
                 return response;
             }
         }
+
+        public async Task<ListResult<BrandDto>> GetAllAsync()
+        {
+
+            ListResult<BrandDto> response = new ListResult<BrandDto>();
+
+            List<Brand> brands = await _repository.GetAllAsync();
+
+            response.SetSucess(_mapper.Map<List<BrandDto>>(brands));
+
+            return response;
+        }
+
+
     }
 }
+
