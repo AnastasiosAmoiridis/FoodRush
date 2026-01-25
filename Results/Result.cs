@@ -1,6 +1,6 @@
 ﻿namespace Results
 {
-    public class Result<T> : HttpResultBase where T : class
+    public class Result<T> : ResultBase where T : class
     {
         public T Item { get; protected set; }
 
