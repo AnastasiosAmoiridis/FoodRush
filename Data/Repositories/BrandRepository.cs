@@ -15,6 +15,13 @@ namespace Data.Repositories
             _query = _context.Brands;
         }
 
+        public async Task<List<Brand>> GetAllAsync()
+        {
+            List<Brand> brands = await _query.ToListAsync();
+
+            return brands;
+        }
+
         public async Task<Brand> GetByNameAsync(string name)
         {
             Brand? brand = await _query.SingleOrDefaultAsync(b => b.Name == name);
