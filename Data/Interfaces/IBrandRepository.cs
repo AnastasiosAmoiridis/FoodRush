@@ -8,6 +8,8 @@ namespace Data.Interfaces
 
         public Task<Brand> GetByIdAsync(Guid id);
 
+        public Task ActivateAsync(Guid id);
+
         public Task<List<Brand>> GetAllAsync();
     }
 }

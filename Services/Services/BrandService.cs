@@ -50,6 +50,28 @@ namespace Services.Services
 
             return response;
         }
+
+        public async Task<Result<BrandDto>> ActivateAsync(Guid id)
+        {
+            Result<BrandDto> response = new Result<BrandDto>();
+
+            Brand? brand = await _repository.GetByIdAsync(id);
+
+            if (brand == null)
+            {
+                response.Fail("Brand Not found");
+
+                return response;
+            }
+
+            await _repository.ActivateAsync(id);
+
+            brand.IsActive = true;
+
+            response.SetSuccess(_mapper.Map<BrandDto>(brand));
+
+            return response;
+        }
     }
 }
 

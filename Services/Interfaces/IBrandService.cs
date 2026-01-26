@@ -9,6 +9,8 @@ namespace Services.Interfaces
 
         Task<Result<BrandDto>> GetByIdAsync(Guid id);
 
+        Task<Result<BrandDto>> ActivateAsync(Guid id);
+
         Task<ListResult<BrandDto>> GetAllAsync();
     }
 }

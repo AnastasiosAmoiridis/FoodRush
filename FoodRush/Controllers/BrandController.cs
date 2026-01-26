@@ -65,5 +65,22 @@ namespace FoodRush.Controllers
                 statusCode: StatusCodes.Status500InternalServerError
             );
         }
+
+        [HttpPut("activate/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Result<BrandDto>>> ActivateAsync([FromRoute] Guid id)
+        {
+            Result<BrandDto> response = await _service.ActivateAsync(id);
+
+            if (response.Item == null)
+            {
+                return NotFound("Brand not found");
+            }
+
+            return Ok(response);
+        }
     }
 }

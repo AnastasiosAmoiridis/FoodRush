@@ -35,5 +35,13 @@ namespace Data.Repositories
 
             return brand;
         }
+
+        public async Task ActivateAsync(Guid id)
+        {
+            Brand? brand = await _query.SingleOrDefaultAsync(b => b.Id == id);
+            brand.IsActive = true;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
