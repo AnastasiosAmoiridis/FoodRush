@@ -16,12 +16,12 @@ namespace FoodRush.Controllers
             _service = service;
         }
 
-        [HttpGet("{description}")]
+        [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Result<CodeDefinitionDto>>> GetByDescriptionAsync([FromRoute] string description)
+        public async Task<ActionResult<Result<CodeDefinitionDto>>> GetByDescriptionAsync([FromQuery] string description)
         {
             Result<CodeDefinitionDto>? response = await _service.GetByDescriptionAsync(description);
 
