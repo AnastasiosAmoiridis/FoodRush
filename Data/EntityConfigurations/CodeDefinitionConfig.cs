@@ -20,6 +20,28 @@ namespace Data.EntityConfigurations
 
             builder.Property(cd => cd.Description)
                    .HasMaxLength(EntityConstraints.MAX_CODE_DEFINITION_DESCRIPTION_LENGTH);
+
+            SeedData(builder);
+        }
+
+        private static void SeedData(EntityTypeBuilder<CodeDefinition> builder)
+        {
+            builder.HasData(
+                new CodeDefinition
+                {
+                    Id = Guid.Parse("8F2A6C3E-4B91-4D6C-9C3F-1A7E9F2B0A11"),
+                    Description = "Payment",
+                    IsActive = true,
+                    IsDeleted = false
+                },
+                new CodeDefinition
+                {
+                    Id = Guid.Parse("3C9E1F72-0A5D-4E8B-B7A4-9D6F2C1E4B22"),
+                    Description = "OrderStatus",
+                    IsActive = true,
+                    IsDeleted = false
+                }
+            );
         }
     }
 }
