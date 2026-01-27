@@ -36,5 +36,23 @@ namespace Services.Services
 
             return response;
         }
+
+        public async Task<Result<CodeDefinitionDto>> GetByIdAsync(Guid id)
+        {
+            Result<CodeDefinitionDto> response = new Result<CodeDefinitionDto>();
+
+            CodeDefinition? codeDefinition = await _repository.GetByIdAsync(id);
+
+            if (codeDefinition == null)
+            {
+                response.Fail($"Could not find CodeDefinition with id: '{id}'");
+            }
+            else
+            {
+                response.SetSuccess(_mapper.Map<CodeDefinitionDto>(codeDefinition));
+            }
+
+            return response;
+        }
     }
 }

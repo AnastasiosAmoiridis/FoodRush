@@ -5,5 +5,7 @@ namespace Data.Interfaces
     public interface ICodeDefinitionRepository
     {
         public Task<CodeDefinition>? GetByDescriptionAsync(string description);
+
+        public Task<CodeDefinition>? GetByIdAsync(Guid id);
     }
 }

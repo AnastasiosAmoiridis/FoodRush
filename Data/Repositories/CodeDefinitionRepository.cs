@@ -1,6 +1,5 @@
 ﻿using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Models.Entities;
 
 namespace Data.Repositories
@@ -21,6 +20,15 @@ namespace Data.Repositories
             CodeDefinition? codeDefinition = await _query
                 .Where(cd => cd.IsActive)
                 .FirstOrDefaultAsync(cd => cd.Description == description);
+
+            return codeDefinition;
+        }
+
+        public async Task<CodeDefinition>? GetByIdAsync(Guid id)
+        {
+            CodeDefinition? codeDefinition = await _query
+                .Where(cd => cd.IsActive)
+                .FirstOrDefaultAsync(cd => cd.Id == id);
 
             return codeDefinition;
         }

@@ -32,5 +32,23 @@ namespace FoodRush.Controllers
 
             return Ok(response);
         }
+
+
+        [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Result<CodeDefinitionDto>>> GetByIdAsync([FromQuery] Guid id)
+        {
+            Result<CodeDefinitionDto>? response = await _service.GetByIdAsync(id);
+
+            if (response.Item == null)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
+        }
     }
 }
