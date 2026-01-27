@@ -19,8 +19,10 @@ namespace Data
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IBrandRepository, BrandRepository>();
-            
+            services.AddScoped<IBrandRepository, BrandRepository>();
+
+            services.AddScoped<ICodeDefinitionRepository, CodeDefinitionRepository>();
+
             return services;
         }
     }

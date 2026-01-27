@@ -9,6 +9,8 @@ namespace Services.Mapping
         public MappingProfile()
         {
             CreateMap<Brand, BrandDto>();
+
+            CreateMap<CodeDefinition, CodeDefinitionDto>();
         }
     }
 }

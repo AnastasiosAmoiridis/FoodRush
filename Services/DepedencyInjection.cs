@@ -9,7 +9,10 @@ namespace Services
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddAutoMapper(cfg => { }, typeof(DepedencyInjection));
+
             services.AddScoped<IBrandService, BrandService>();
+
+            services.AddScoped<ICodeDefinitionService, CodeDefinitionService>();
 
             return services;
         }
