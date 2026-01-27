@@ -20,6 +20,7 @@ namespace FoodRush.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Result<CodeDefinitionDto>>> GetByDescriptionAsync([FromQuery] string description)
         {
@@ -38,6 +39,7 @@ namespace FoodRush.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Result<CodeDefinitionDto>>> GetByIdAsync([FromQuery] Guid id)
         {
