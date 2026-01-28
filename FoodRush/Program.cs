@@ -1,8 +1,11 @@
 using Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,47 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.SaveToken = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = builder.Configuration["Auth:JWT:ValidIssuer"],
+            ValidateLifetime = builder.Configuration.GetValue<bool>("Auth:JWT:ValidateLifetime", true),
+            ValidateAudience = builder.Configuration.GetValue<bool>("Auth:JWT:ValidateAudience", true),
+            ValidAudience = builder.Configuration["Auth:Jwt:ValidAudience"],
+            ClockSkew = TimeSpan.Zero,
+            IncludeTokenOnFailedValidation = builder.Configuration.GetValue<bool>("Auth:JWT:IncludeTokenOnFailedValidation", false),
+            ValidateIssuerSigningKey = builder.Configuration.GetValue<bool>("Auth:JWT:ValidateIssuerSigningKey", true),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Auth:JWT:SigningKey"])),
+            RequireAudience = builder.Configuration.GetValue<bool>("Auth:JWT:RequireAudience", true),
+            RequireExpirationTime = builder.Configuration.GetValue<bool>("Auth:JWT:RequireExpirationTime", true),
+            RequireSignedTokens = builder.Configuration.GetValue<bool>("Auth:JWT:RequireSignedTokens", true),
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception != null && context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.StatusCode = 401;
+                    context.Response.Headers.Add("Status", "tokenlifetimeexpired");
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 builder.Services.AddSwaggerGen(options =>
 {
