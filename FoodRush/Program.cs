@@ -23,10 +23,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("App")
+var appConnectionString = builder.Configuration.GetConnectionString("App")
     ?? throw new InvalidOperationException("Connection string 'App' was not found");
 
-builder.Services.AddData(connectionString);
+var authConnectionString = builder.Configuration.GetConnectionString("Auth")
+    ?? throw new InvalidOperationException("Connection string 'Auth' was not found");
+
+builder.Services.AddData(appConnectionString, authConnectionString);
 
 builder.Services.AddServices();
 
