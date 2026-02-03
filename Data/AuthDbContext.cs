@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Data.EntityConfigurations.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities.Auth;
@@ -13,7 +14,7 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly, t => t.Namespace == typeof(RefreshTokenConfig).Namespace);
             base.OnModelCreating(modelBuilder);
         }
     }
