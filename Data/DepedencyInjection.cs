@@ -26,6 +26,8 @@ namespace Data
         {
             services.AddTransient<IBrandRepository, BrandRepository>();
 
+            services.AddScoped<IAuthRepository, AuthRepository>();
+
             return services;
         }
     }
