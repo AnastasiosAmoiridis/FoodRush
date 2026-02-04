@@ -10,6 +10,7 @@ namespace Services
         {
             services.AddAutoMapper(cfg => { }, typeof(DepedencyInjection));
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
