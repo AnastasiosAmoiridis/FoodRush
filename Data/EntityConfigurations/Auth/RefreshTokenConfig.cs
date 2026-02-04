@@ -15,6 +15,11 @@ namespace Data.EntityConfigurations.Auth
 
             builder.Property(rt => rt.Id)
                    .HasDefaultValueSql(EntityConstraints.DEFAULT_SQL_KEY_VALUE);
+
+            builder.HasOne(rf => rf.IdentityUser)
+                   .WithMany(friu => friu.RefreshTokens)
+                   .HasForeignKey(rf => rf.IdentityUserId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
