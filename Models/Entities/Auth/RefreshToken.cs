@@ -12,10 +12,14 @@
 
         public DateTime? Revoked { get; set; }
 
-        public string? ReasonRevoked { get; set; }   
+        public string? ReasonRevoked { get; set; }
 
         public string IdentityUserId { get; set; }
 
         public FoodRushIdentityUser IdentityUser { get; set; }
+
+        public Guid? ReplacedByTokenId { get; set; }
+
+        public RefreshToken? ReplacedByToken { get; set; }
     }
 }
