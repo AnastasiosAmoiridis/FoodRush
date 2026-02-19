@@ -1,29 +1,26 @@
-﻿namespace Results
+﻿using Results.Enums;
+
+namespace Results
 {
     public abstract class ResultBase
     {
-        public bool Success { get; private set; }
+        public bool Success { get; }
 
-        public string? ErrorDetails { get; private set; }
+        public string? ErrorDetails { get; }
 
-        public bool HasValidationErrors => ValidationErrors != null && ValidationErrors.Count > 0;
+        public ResultFailureType FailureType { get; } = ResultFailureType.None;
 
-        public ICollection<ValidationError>? ValidationErrors { get; private set; }
+        public IReadOnlyCollection<ValidationError>? ValidationErrors { get; }
 
-        public virtual void SetSuccess()
+        protected ResultBase(
+            bool sucess,
+            string? errorDetails = null,
+            IReadOnlyCollection<ValidationError>? validationErrors = null,
+            ResultFailureType failureType = ResultFailureType.None)
         {
-            Success = true;
-        }
-
-        public virtual void Fail(string errorDetails)
-        {
-            Success = false;
+            Success = sucess;
             ErrorDetails = errorDetails;
-        }
-
-        public virtual void FailWithValidationErrors(ICollection<ValidationError> validationErrors)
-        {
-            Success = false;
+            FailureType = failureType;
             ValidationErrors = validationErrors;
         }
     }
