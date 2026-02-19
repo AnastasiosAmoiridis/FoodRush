@@ -2,11 +2,12 @@
 {
     public enum ResultFailureType
     {
-      None,
-      Validation,
-      Authentication,
-      Authorization,
-      BusinessRuleViolation
+        None,
+        Validation,
+        Authentication,
+        Authorization,
+        BusinessRuleViolation,
+        TransactionFailure
     }
 }
 
