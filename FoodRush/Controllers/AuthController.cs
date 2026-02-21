@@ -8,9 +8,9 @@ using Services.Interfaces;
 
 namespace FoodRush.Controllers
 {
-    [ApiController]
+
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : FoodRushBaseControllerBase
     {
         private readonly IAuthService _service;
 
@@ -30,16 +30,7 @@ namespace FoodRush.Controllers
         {
             Result<RegisterResponseDto> response = await _service.RegisterAsync(registerDto);
 
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-
-            return response.FailureType switch
-            {
-                ResultFailureType.BusinessRuleViolation => BadRequest(response),
-                ResultFailureType.Validation => BadRequest(response),
-            };
+            return HandleResut(response);
         }
 
         [AllowAnonymous]
@@ -53,12 +44,7 @@ namespace FoodRush.Controllers
         {
             Result<LoginResponseDto> response = await _service.LoginAsync(loginDto);
 
-            if (response.Item == null)
-            {
-                return Unauthorized("Invalid Email or Password");
-            }
-
-            return Ok(response);
+            return HandleResut(response);
         }
     }
 }
