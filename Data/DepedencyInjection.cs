@@ -1,7 +1,9 @@
 ﻿using Data.Interfaces;
 using Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Models.Entities.Auth;
 
 namespace Data
 {
@@ -19,6 +21,10 @@ namespace Data
                 options.UseSqlServer(authConnectionString);
             });
 
+            services.AddIdentityCore<FoodRushIdentityUser>()
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<AuthDbContext>();
+
             return services;
         }
 
@@ -27,6 +33,10 @@ namespace Data
             services.AddTransient<IBrandRepository, BrandRepository>();
 
             services.AddScoped<IAuthRepository, AuthRepository>();
+
+            services.AddScoped<ITokenRepository, TokenRepository>();
+
+           
 
             return services;
         }
