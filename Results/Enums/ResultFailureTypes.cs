@@ -4,6 +4,7 @@
     {
         None,
         Validation,
+        NotFound,
         Authentication,
         Authorization,
         BusinessRuleViolation,
