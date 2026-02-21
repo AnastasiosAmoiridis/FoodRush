@@ -36,7 +36,7 @@ namespace Data
 
             services.AddScoped<ITokenRepository, TokenRepository>();
 
-           
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             return services;
         }
