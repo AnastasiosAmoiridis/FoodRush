@@ -6,9 +6,9 @@ namespace FoodRush.Controllers
 {
 
     [ApiController]
-    public abstract class FoodRushBaseControllerBase : ControllerBase
+    public abstract class FoodRushControllerBase : ControllerBase
     {
-        protected ActionResult<T> HandleResut<T>(T result) where T : ResultBase
+        protected ActionResult<T> HandleResult<T>(T result) where T : ResultBase
         {
             if (result.Success)
             {

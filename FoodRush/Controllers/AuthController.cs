@@ -10,7 +10,7 @@ namespace FoodRush.Controllers
 {
 
     [Route("api/[controller]")]
-    public class AuthController : FoodRushBaseControllerBase
+    public class AuthController : FoodRushControllerBase
     {
         private readonly IAuthService _service;
 
@@ -30,7 +30,7 @@ namespace FoodRush.Controllers
         {
             Result<RegisterResponseDto> response = await _service.RegisterAsync(registerDto);
 
-            return HandleResut(response);
+            return HandleResult(response);
         }
 
         [AllowAnonymous]
@@ -44,7 +44,7 @@ namespace FoodRush.Controllers
         {
             Result<LoginResponseDto> response = await _service.LoginAsync(loginDto);
 
-            return HandleResut(response);
+            return HandleResult(response);
         }
     }
 }
