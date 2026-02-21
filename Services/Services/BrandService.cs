@@ -4,6 +4,7 @@ using Models.Entities;
 using Results;
 using Services.DTOs;
 using Services.Interfaces;
+using Results.Enums;
 
 namespace Services.Services
 {
@@ -20,57 +21,49 @@ namespace Services.Services
 
         public async Task<Result<BrandDto>> GetByNameAsync(string name)
         {
-            Result<BrandDto> response = new Result<BrandDto>();
-
             Brand? brand = await _repository.GetByNameAsync(name);
 
-            response.SetSuccess(_mapper.Map<BrandDto>(brand));
+            if (brand == null)
+            {
+                return Result<BrandDto>.Fail("Was not able to find that brand", ResultFailureType.NotFound);
+            }
 
-            return response;
+            return Result<BrandDto>.Ok(_mapper.Map<BrandDto>(brand));
         }
 
         public async Task<Result<BrandDto>> GetByIdAsync(Guid id)
         {
-            Result<BrandDto> response = new Result<BrandDto>();
-
-            Brand? brand = await _repository.GetByIdAsync(id);
-
-            response.SetSuccess(_mapper.Map<BrandDto>(brand));
-
-            return response;
-        }
-
-        public async Task<ListResult<BrandDto>> GetAllAsync()
-        {
-            ListResult<BrandDto> response = new ListResult<BrandDto>();
-
-            List<Brand> brands = await _repository.GetAllAsync();
-
-            response.SetSucess(_mapper.Map<List<BrandDto>>(brands));
-
-            return response;
-        }
-
-        public async Task<Result<BrandDto>> ActivateAsync(Guid id)
-        {
-            Result<BrandDto> response = new Result<BrandDto>();
-
             Brand? brand = await _repository.GetByIdAsync(id);
 
             if (brand == null)
             {
-                response.Fail("Brand Not found");
+                return Result<BrandDto>.Fail("Was not able to find that brand", ResultFailureType.NotFound);
+            }
 
-                return response;
+            return Result<BrandDto>.Ok(_mapper.Map<BrandDto>(brand));
+        }
+
+        public async Task<ListResult<BrandDto>> GetAllAsync()
+        {
+            List<Brand> brands = await _repository.GetAllAsync();
+
+            return ListResult<BrandDto>.Ok(_mapper.Map<List<BrandDto>>(brands));
+        }
+
+        public async Task<Result<BrandDto>> ActivateAsync(Guid id)
+        {
+            Brand? brand = await _repository.GetByIdAsync(id);
+
+            if (brand == null)
+            {
+                return Result<BrandDto>.Fail("Was not able to find that brand", ResultFailureType.NotFound);
             }
 
             await _repository.ActivateAsync(id);
 
             brand.IsActive = true;
 
-            response.SetSuccess(_mapper.Map<BrandDto>(brand));
-
-            return response;
+            return Result<BrandDto>.Ok(_mapper.Map<BrandDto>(brand));
         }
     }
 }
