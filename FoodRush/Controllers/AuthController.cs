@@ -40,6 +40,25 @@ namespace FoodRush.Controllers
                 ResultFailureType.BusinessRuleViolation => BadRequest(response),
                 ResultFailureType.Validation => BadRequest(response),
             };
-        }      
+        }
+
+        [AllowAnonymous]
+        //[RequireHttps]
+        [HttpPost("login")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Result<LoginResponseDto>>> LoginAsync([FromBody] LoginDto loginDto)
+        {
+            Result<LoginResponseDto> response = await _service.LoginAsync(loginDto);
+
+            if (response.Item == null)
+            {
+                return Unauthorized("Invalid Email or Password");
+            }
+
+            return Ok(response);
+        }
     }
 }
