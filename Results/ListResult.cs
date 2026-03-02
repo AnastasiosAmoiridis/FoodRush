@@ -1,4 +1,5 @@
-﻿using Results;
+﻿using FluentValidation.Results;
+using Results;
 using Results.Enums;
 
 public sealed class ListResult<T> : ResultBase
@@ -8,10 +9,10 @@ public sealed class ListResult<T> : ResultBase
     private ListResult(
         IReadOnlyCollection<T>? items,
         bool success,
-        ResultFailureType failureType = ResultFailureType.None,
+        string? failureType = null,
         string? errorDetails = null,
-        IReadOnlyCollection<ValidationError>? validationErrors = null)
-        : base(success,errorDetails,validationErrors,failureType)
+        IReadOnlyCollection<ValidationFailure>? validationErrors = null)
+        : base(success, failureType, errorDetails, validationErrors)
     {
         Items = items;
     }
@@ -20,9 +21,9 @@ public sealed class ListResult<T> : ResultBase
         => new ListResult<T>(items, true);
 
     public static ListResult<T> Fail(string error, ResultFailureType type)
-        => new ListResult<T>(null, false, type, error);
+        => new ListResult<T>(null, false, type.ToString(), error);
 
     public static ListResult<T> ValidationFail(
-        IReadOnlyCollection<ValidationError> errors)
-        => new ListResult<T>(null, false, ResultFailureType.Validation, null, errors);
+        IReadOnlyCollection<ValidationFailure> errors)
+        => new ListResult<T>(null, false, ResultFailureType.Validation.ToString(), null, errors);
 }

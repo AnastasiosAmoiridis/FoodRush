@@ -1,4 +1,5 @@
-﻿using Results.Enums;
+﻿using FluentValidation.Results;
+using Results.Enums;
 
 namespace Results
 {
@@ -9,10 +10,10 @@ namespace Results
         private Result(
         T? item,
         bool success,
-        ResultFailureType failureType = ResultFailureType.None,
+        string? failureType = null,
         string? errorDetails = null,
-        IReadOnlyCollection<ValidationError>? validationErrors = null)
-        : base(success, errorDetails, validationErrors, failureType)
+        IReadOnlyCollection<ValidationFailure>? validationErrors = null)
+        : base(success, failureType, errorDetails, validationErrors)
         {
             Item = item;
         }
@@ -21,9 +22,9 @@ namespace Results
             => new Result<T>(item, true);
 
         public static Result<T> Fail(string errorDetails, ResultFailureType resultFailure)
-            => new Result<T>(default, false, resultFailure, errorDetails);
+            => new Result<T>(default, false, resultFailure.ToString(), errorDetails);
 
-        public static Result<T> ValidationFail(IReadOnlyCollection<ValidationError> validationErrors)
-            => new Result<T>(default, false, ResultFailureType.Validation, null, validationErrors);
+        public static Result<T> ValidationFail(IReadOnlyCollection<ValidationFailure> validationErrors)
+            => new Result<T>(default, false, ResultFailureType.Validation.ToString(), null, validationErrors);
     }
 }
