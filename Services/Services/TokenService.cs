@@ -1,8 +1,8 @@
 ﻿using Data.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.Entities.Auth;
+using Results;
 using Services.DTOs;
 using Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,12 +27,67 @@ namespace Services.Services
         {
             using HashAlgorithm hashAlgorithm = SHA256.Create();
 
-            byte[] hashBytes = hashAlgorithm.ComputeHash(Convert.FromBase64String(token));
+            byte[] tokenBytes = Encoding.UTF8.GetBytes(token);
+            byte[] hashBytes = hashAlgorithm.ComputeHash(tokenBytes);
 
+            // Return hash as Base64 string
             string hash = Convert.ToBase64String(hashBytes);
             return hash;
         }
     }
+
+    internal class AccessTokenUtils
+    {   
+        private readonly IConfiguration _configuration;
+
+        private readonly TokenValidationParameters _tokenValidationParameters;
+
+        public AccessTokenUtils(IConfiguration configuration)
+        {
+            _configuration = configuration;
+
+            _tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true, 
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Auth:JWT:SigningKey"])),
+
+                ValidateIssuer = true,
+                ValidIssuer = _configuration["Auth:JWT:ValidIssuer"],
+
+                ValidateAudience = true, 
+                ValidateLifetime = false, // ignore expiration
+                ClockSkew = TimeSpan.Zero
+            };
+        }
+        public  JwtSecurityToken ParseAccessToken(string token)
+        {
+            JwtSecurityTokenHandler handeler = new JwtSecurityTokenHandler();
+
+            JwtSecurityToken jwtToken = handeler.ReadJwtToken(token);
+
+            return jwtToken;
+        }
+
+        public bool IsAccessTokenValid(string token)
+        {
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+
+            try
+            {
+        
+                handler.ValidateToken(token, _tokenValidationParameters, out SecurityToken validatedToken);
+
+              
+                return validatedToken is JwtSecurityToken;
+            }
+            catch (Exception)
+            {           
+                return false;
+            }
+        }
+
+    }
+
     internal class TokenService : ITokenService
     {
         private readonly ITokenRepository _repository;
@@ -78,20 +133,28 @@ namespace Services.Services
             return stringToken;
         }
 
-        public async Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user)
+        public async Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user, string? reson = null)
         {
-            RefreshTokenWithRawDto newToken = GenerateRefreshTokenForUser(user);
+            RefreshTokenWithRawDto newToken = GenerateRefreshTokenForUser(user);      
 
-            using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            try
+            {
+            
 
-            await _repository.AddTokenAsync(newToken.RefreshToken);
+                await _authRepository.RunInTransactionAsync(async () =>
+                {
+                    await RotateRefreshTokenForUser(user.Id, newToken.RefreshToken, reson);
+                    await _repository.AddTokenAsync(newToken.RefreshToken);
+                    await _repository.SaveChangesAsync();
+                });               
 
-            await RotateRefreshTokenForUser(user.Id, newToken.RefreshToken);
-
-            await _repository.SaveChangesAsync();
-
-            scope.Complete();
-            return newToken;
+                return newToken;
+            }
+            catch
+            {
+                // EF transaction will rollback automatically if not committed
+                throw;
+            }
         }
 
         public async Task RotateRefreshTokenForUser(string userId, RefreshToken newToken, string? reason = null)
@@ -109,6 +172,56 @@ namespace Services.Services
                 activeToken.Revoked = DateTime.UtcNow;
                 activeToken.ReasonRevoked = reason;
             }
+        }
+
+        public async Task<Result<TokensDto>> RefreshAccessTokenAsync(TokensDto oldTokens)
+        {
+            bool isRefreshTokenValid = IsRefreshTokenValid(oldTokens.RefreshToken).Result;
+            if (!isRefreshTokenValid)
+            {
+                return Result<TokensDto>.Fail("Invalid refresh token", Results.Enums.ResultFailureType.Authorization);
+            }
+
+            AccessTokenUtils accessTokenUtils = new AccessTokenUtils(_configuration);
+            
+            bool isAccessTokenValid = accessTokenUtils.IsAccessTokenValid(oldTokens.AcessToken);
+            if (!isAccessTokenValid)
+            {
+                return Result<TokensDto>.Fail("Invalid access token", Results.Enums.ResultFailureType.Authorization);
+            }
+
+            string hashedRefreshToken = RefreshTokenUtils.HashRefreshToken(oldTokens.RefreshToken);
+            RefreshToken token = await _repository.GetAsync(hashedRefreshToken);
+
+            FoodRushIdentityUser user = token.IdentityUser;
+
+            using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
+            RefreshTokenWithRawDto newRefreshToken = await GenerateAndRotateRefreshTokenForUser(user);
+
+            string newAccessToken = await GenerateAccessTokenForUser(user);
+
+            scope.Complete();
+
+            return Result<TokensDto>.Ok(new TokensDto { AcessToken = newAccessToken, RefreshToken = newRefreshToken.Token });
+        }       
+
+        private async Task<bool> IsRefreshTokenValid(string token)
+        {
+            string hashedToken = RefreshTokenUtils.HashRefreshToken(token);
+
+            RefreshToken? tokenFromDb = await _repository.GetAsync(hashedToken);
+            if (tokenFromDb != null)
+            {
+                bool hasExpired = DateTime.UtcNow > tokenFromDb.Expires;
+                bool isRevoked = tokenFromDb.Revoked != null;
+
+                if (!(hasExpired || isRevoked))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private RefreshTokenWithRawDto GenerateRefreshTokenForUser(FoodRushIdentityUser user)

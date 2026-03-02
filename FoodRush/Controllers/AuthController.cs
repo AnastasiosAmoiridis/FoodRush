@@ -14,9 +14,12 @@ namespace FoodRush.Controllers
     {
         private readonly IAuthService _service;
 
-        public AuthController(IAuthService service)
+        private readonly ITokenService _tokenService;
+
+        public AuthController(IAuthService service, ITokenService tokenService)
         {
             _service = service;
+            _tokenService = tokenService;
         }
 
         [AllowAnonymous]
@@ -43,6 +46,20 @@ namespace FoodRush.Controllers
         public async Task<ActionResult<Result<LoginResponseDto>>> LoginAsync([FromBody] LoginDto loginDto)
         {
             Result<LoginResponseDto> response = await _service.LoginAsync(loginDto);
+
+            return HandleResult(response);
+        }
+
+        [AllowAnonymous]
+        //[RequireHttps]
+        [HttpPost("refreshAccessToken")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Result<TokensDto>>> RefreshAccessTokenAsync([FromBody] TokensDto oldTokens)
+        {
+            Result<TokensDto> response = await _tokenService.RefreshAccessTokenAsync(oldTokens);
 
             return HandleResult(response);
         }

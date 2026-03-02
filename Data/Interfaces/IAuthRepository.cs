@@ -9,5 +9,7 @@ namespace Data.Interfaces
         public Task<FoodRushIdentityUser?> GetByIdAsync(string id);
 
         public Task<FoodRushIdentityUser?> FindByEmailOrUserNameAsync(string email = "", string userName = "");
+
+        public Task RunInTransactionAsync(Func<Task> action);
     }
 }

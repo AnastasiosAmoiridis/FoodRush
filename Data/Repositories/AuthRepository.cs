@@ -16,9 +16,25 @@ namespace Data.Repositories
             _usersQuery = _contex.Users;
         }
 
+        public async Task RunInTransactionAsync(Func<Task> action)
+        {
+            await using var transaction = await _contex.Database.BeginTransactionAsync();
+            try
+            {
+                await action();
+                await _contex.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {     
+                throw;
+            }
+        }
+
         public async Task<FoodRushIdentityUser?> FindByEmailOrUserNameAsync(string email = "", string userName = "")
         {
             FoodRushIdentityUser? user = await _usersQuery.OfType<FoodRushIdentityUser>()
+                                                          .Include(u => u.RefreshTokens)
                                                           .FirstOrDefaultAsync(ui => ui.Email == email || ui.UserName == userName);
             return user;
         }
@@ -26,6 +42,7 @@ namespace Data.Repositories
         public async Task<FoodRushIdentityUser?> GetByEmailAsync(string email)
         {
             FoodRushIdentityUser? user = await _usersQuery.OfType<FoodRushIdentityUser>()
+                                                          .Include(u => u.RefreshTokens)
                                                           .FirstOrDefaultAsync(ui => ui.Email == email);
             return user;
         }
@@ -33,6 +50,7 @@ namespace Data.Repositories
         public async Task<FoodRushIdentityUser?> GetByIdAsync(string id)
         {
             FoodRushIdentityUser? user = await _usersQuery.OfType<FoodRushIdentityUser>()
+                                                       .Include(u => u.RefreshTokens)
                                                        .FirstOrDefaultAsync(ui => ui.Id == id);
             return user;
         }

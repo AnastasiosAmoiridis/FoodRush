@@ -1,4 +1,5 @@
 ﻿using Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Models.Entities.Auth;
 
 namespace Data.Repositories
@@ -16,8 +17,14 @@ namespace Data.Repositories
 
         public async Task AddTokenAsync(RefreshToken token)
         {
-            await _context.RefreshTokens.AddAsync(token);
-            await _context.SaveChangesAsync();  
+            await _context.RefreshTokens.AddAsync(token);   
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<RefreshToken?> GetAsync(string token)
+        {
+            RefreshToken? refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
+            return refreshToken;
         }
 
         public async Task SaveChangesAsync()

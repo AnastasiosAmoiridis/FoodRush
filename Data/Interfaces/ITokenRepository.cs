@@ -7,5 +7,7 @@ namespace Data.Interfaces
         public Task SaveChangesAsync();
 
         public Task AddTokenAsync(RefreshToken token);
+
+        public Task<RefreshToken?> GetAsync(string token);
     }
 }

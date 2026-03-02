@@ -1,4 +1,5 @@
 ﻿using Models.Entities.Auth;
+using Results;
 using Services.DTOs;
 
 namespace Services.Interfaces
@@ -9,6 +10,8 @@ namespace Services.Interfaces
 
         public Task RotateRefreshTokenForUser(string userId, RefreshToken newToken, string? reason = null);
 
-        public Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user);
+        public Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user, string? reason);
+
+        public Task<Result<TokensDto>> RefreshAccessTokenAsync(TokensDto oldTokens);
     }
 }

@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using Data.Interfaces;
+﻿using Data.Interfaces;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Models.Entities;
 using Models.Entities.Auth;
 using Results;
 using Services.DTOs;
 using Services.DTOs.Response;
 using Services.Interfaces;
+using Services.Validators;
 
 namespace Services.Services
 {
@@ -36,7 +36,6 @@ namespace Services.Services
 
         public async Task<Result<LoginResponseDto>> LoginAsync(LoginDto loginDto)
         {
-            //Validate
             FoodRushIdentityUser? user = await _repository.GetByEmailAsync(loginDto.Email);
             if (user == null)
             {
@@ -50,7 +49,7 @@ namespace Services.Services
             }
 
             string accessToken = await _tokenService.GenerateAccessTokenForUser(user);
-            RefreshTokenWithRawDto refreshToken = await _tokenService.GenerateAndRotateRefreshTokenForUser(user);
+            RefreshTokenWithRawDto refreshToken = await _tokenService.GenerateAndRotateRefreshTokenForUser(user, "Replaced by new token at login");
 
             return Result<LoginResponseDto>.Ok(new LoginResponseDto
             {
@@ -61,6 +60,14 @@ namespace Services.Services
 
         public async Task<Result<RegisterResponseDto>> RegisterAsync(RegisterDto registerDto)
         {
+            RegisterValidator validator = new RegisterValidator();
+
+            ValidationResult valResult = validator.Validate(registerDto);
+            if (!valResult.IsValid)
+            {
+                return Result<RegisterResponseDto>.ValidationFail(valResult.Errors);
+            }
+
             FoodRushIdentityUser? user = await _repository.FindByEmailOrUserNameAsync(registerDto.UserName, registerDto.Email);
             Customer? existingCustomer = await _customerRepository.GetByEmailAsync(registerDto.Email);
             if (user != null || existingCustomer != null)
