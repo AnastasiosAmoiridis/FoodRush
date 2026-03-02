@@ -75,7 +75,7 @@ namespace Services.Services
                 return Result<RegisterResponseDto>.Fail("User already exist", Results.Enums.ResultFailureType.BusinessRuleViolation);
             }
 
-            Customer customer = customer = new Customer
+            Customer customer = new Customer
             {
                 Email = registerDto.Email,
                 Phone = registerDto.Phone,
