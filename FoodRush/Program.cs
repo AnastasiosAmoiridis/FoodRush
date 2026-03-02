@@ -1,9 +1,12 @@
 using Data;
+using FoodRush;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+
 using Services;
 using System.Text;
 
@@ -65,7 +68,20 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Title = "Best Food Ordering App"
     });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' followed by your JWT token"
+    });
+
+    options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
+
 
 var appConnectionString = builder.Configuration.GetConnectionString("App")
     ?? throw new InvalidOperationException("Connection string 'App' was not found");
