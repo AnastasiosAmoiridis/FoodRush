@@ -28,6 +28,8 @@
 
         public const decimal MIN_RATING_VALUE = 0.0m;
 
+        public const byte MIN_PASSWORD_LENGTH = 8;
+
         public const string DEFAULT_SQL_KEY_VALUE = "NEWID()";
 
         public const string CK_PRODUCT_BASEPRICE_MIN = "CK_Product_BasePrice_Min";
