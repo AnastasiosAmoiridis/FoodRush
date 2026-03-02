@@ -37,7 +37,7 @@ namespace Services.Services
     }
 
     internal class AccessTokenUtils
-    {   
+    {
         private readonly IConfiguration _configuration;
 
         private readonly TokenValidationParameters _tokenValidationParameters;
@@ -48,18 +48,18 @@ namespace Services.Services
 
             _tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuerSigningKey = true, 
+                ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Auth:JWT:SigningKey"])),
 
                 ValidateIssuer = true,
                 ValidIssuer = _configuration["Auth:JWT:ValidIssuer"],
 
-                ValidateAudience = true, 
+                ValidateAudience = true,
                 ValidateLifetime = false, // ignore expiration
                 ClockSkew = TimeSpan.Zero
             };
         }
-        public  JwtSecurityToken ParseAccessToken(string token)
+        public JwtSecurityToken ParseAccessToken(string token)
         {
             JwtSecurityTokenHandler handeler = new JwtSecurityTokenHandler();
 
@@ -74,14 +74,14 @@ namespace Services.Services
 
             try
             {
-        
+
                 handler.ValidateToken(token, _tokenValidationParameters, out SecurityToken validatedToken);
 
-              
+
                 return validatedToken is JwtSecurityToken;
             }
             catch (Exception)
-            {           
+            {
                 return false;
             }
         }
@@ -135,18 +135,16 @@ namespace Services.Services
 
         public async Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user, string? reson = null)
         {
-            RefreshTokenWithRawDto newToken = GenerateRefreshTokenForUser(user);      
+            RefreshTokenWithRawDto newToken = GenerateRefreshTokenForUser(user);
 
             try
             {
-            
-
                 await _authRepository.RunInTransactionAsync(async () =>
                 {
                     await RotateRefreshTokenForUser(user.Id, newToken.RefreshToken, reson);
                     await _repository.AddTokenAsync(newToken.RefreshToken);
                     await _repository.SaveChangesAsync();
-                });               
+                });
 
                 return newToken;
             }
@@ -183,7 +181,7 @@ namespace Services.Services
             }
 
             AccessTokenUtils accessTokenUtils = new AccessTokenUtils(_configuration);
-            
+
             bool isAccessTokenValid = accessTokenUtils.IsAccessTokenValid(oldTokens.AcessToken);
             if (!isAccessTokenValid)
             {
@@ -204,7 +202,7 @@ namespace Services.Services
             scope.Complete();
 
             return Result<TokensDto>.Ok(new TokensDto { AcessToken = newAccessToken, RefreshToken = newRefreshToken.Token });
-        }       
+        }
 
         private async Task<bool> IsRefreshTokenValid(string token)
         {
