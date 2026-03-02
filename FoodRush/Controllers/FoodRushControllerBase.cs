@@ -15,7 +15,13 @@ namespace FoodRush.Controllers
                 return Ok(result);
             }
 
-            return result.FailureType switch
+            if (!Enum.TryParse<ResultFailureType>(result.FailureType, out var failureEnum))
+            {
+                // Unknown failure type, fallback to 500
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return failureEnum switch
             {
                 ResultFailureType.Validation => BadRequest(result),
                 ResultFailureType.BusinessRuleViolation => BadRequest(result),
