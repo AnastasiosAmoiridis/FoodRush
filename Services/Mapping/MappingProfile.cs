@@ -2,6 +2,7 @@
 using Models.Entities;
 using Results;
 using Services.DTOs;
+using Services.DTOs.Response;
 
 namespace Services.Mapping
 {
@@ -10,6 +11,8 @@ namespace Services.Mapping
         public MappingProfile()
         {
             CreateMap<Brand, BrandDto>();
+
+            CreateMap<CustomerAddress, CustomerAddressResponseDto>();
         }
     }
 }
