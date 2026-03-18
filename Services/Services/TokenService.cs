@@ -103,7 +103,7 @@ namespace Services.Services
             _configuration = configuration;
         }
 
-        public async Task<string> GenerateAccessTokenForUser(FoodRushIdentityUser user)
+        public async Task<AccessTokenWithRawDto> GenerateAccessTokenForUser(FoodRushIdentityUser user)
         {
             string secretKey = _configuration.GetValue<string>("Auth:JWT:SigningKey");
 
@@ -115,7 +115,7 @@ namespace Services.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName),             
             };
 
             JwtSecurityToken token = new JwtSecurityToken(
@@ -130,7 +130,7 @@ namespace Services.Services
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             string stringToken = handler.WriteToken(token);
 
-            return stringToken;
+            return new AccessTokenWithRawDto { Token = stringToken, AccessToken = token };
         }
 
         public async Task<RefreshTokenWithRawDto> GenerateAndRotateRefreshTokenForUser(FoodRushIdentityUser user, string? reson = null)
@@ -197,11 +197,11 @@ namespace Services.Services
 
             RefreshTokenWithRawDto newRefreshToken = await GenerateAndRotateRefreshTokenForUser(user);
 
-            string newAccessToken = await GenerateAccessTokenForUser(user);
+            AccessTokenWithRawDto newAccessToken = await GenerateAccessTokenForUser(user);
 
             scope.Complete();
 
-            return Result<TokensDto>.Ok(new TokensDto { AcessToken = newAccessToken, RefreshToken = newRefreshToken.Token });
+            return Result<TokensDto>.Ok(new TokensDto { AcessToken = newAccessToken.Token, RefreshToken = newRefreshToken.Token });
         }
 
         private async Task<bool> IsRefreshTokenValid(string token)

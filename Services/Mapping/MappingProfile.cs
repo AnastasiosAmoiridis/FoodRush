@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Models.Entities;
+using Results;
 using Services.DTOs;
 
 namespace Services.Mapping

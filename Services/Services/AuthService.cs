@@ -34,27 +34,27 @@ namespace Services.Services
             _userManager = userManager;
         }
 
-        public async Task<Result<LoginResponseDto>> LoginAsync(LoginDto loginDto)
+        public async Task<Result<TokensResponseDto>> LoginAsync(LoginDto loginDto)
         {
             FoodRushIdentityUser? user = await _repository.GetByEmailAsync(loginDto.Email);
             if (user == null)
             {
-                return Result<LoginResponseDto>.Fail("Invalid email or password", Results.Enums.ResultFailureType.Authentication);
+                return Result<TokensResponseDto>.Fail("Invalid email or password", Results.Enums.ResultFailureType.Authentication);
             }
 
             bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginDto.Password);
             if (!isPasswordCorrect)
             {
-                return Result<LoginResponseDto>.Fail("Invalid email or password", Results.Enums.ResultFailureType.Authentication);
+                return Result<TokensResponseDto>.Fail("Invalid email or password", Results.Enums.ResultFailureType.Authentication);
             }
 
-            string accessToken = await _tokenService.GenerateAccessTokenForUser(user);
+            AccessTokenWithRawDto accessToken = await _tokenService.GenerateAccessTokenForUser(user);
             RefreshTokenWithRawDto refreshToken = await _tokenService.GenerateAndRotateRefreshTokenForUser(user, "Replaced by new token at login");
 
-            return Result<LoginResponseDto>.Ok(new LoginResponseDto
+            return Result<TokensResponseDto>.Ok(new TokensResponseDto
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken.Token
+                RefreshToken = refreshToken
             });
         }
 

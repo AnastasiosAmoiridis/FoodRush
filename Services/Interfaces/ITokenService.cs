@@ -6,7 +6,7 @@ namespace Services.Interfaces
 {
     public interface ITokenService
     {
-        public Task<string> GenerateAccessTokenForUser(FoodRushIdentityUser user);
+        public Task<AccessTokenWithRawDto> GenerateAccessTokenForUser(FoodRushIdentityUser user);
 
         public Task RotateRefreshTokenForUser(string userId, RefreshToken newToken, string? reason = null);
 
