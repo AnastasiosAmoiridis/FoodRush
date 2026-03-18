@@ -38,6 +38,8 @@ namespace Data
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
+            services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
+
             return services;
         }
     }

@@ -12,6 +12,7 @@ namespace Services
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ICustomerAddressService, CustomerAddressService>();
 
             return services;
         }
