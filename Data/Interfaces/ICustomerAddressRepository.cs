@@ -5,5 +5,7 @@ namespace Data.Interfaces
     public interface ICustomerAddressRepository
     {
         public Task<CustomerAddress?> GetByIdAsync(Guid id);
+
+        public Task UpdateAsync();
     }
 }

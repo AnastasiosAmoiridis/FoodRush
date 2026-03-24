@@ -23,7 +23,23 @@ namespace Services.Services
         {
             CustomerAddress? customerAddress = await _repository.GetByIdAsync(id);
 
-           return Result<CustomerAddressResponseDto>.Ok(_mapper.Map<CustomerAddressResponseDto>(customerAddress));
+            return Result<CustomerAddressResponseDto>.Ok(_mapper.Map<CustomerAddressResponseDto>(customerAddress));
+        }        
+
+        public async Task<DeleteResult> SoftDeleteAsync(Guid id)
+        {
+            CustomerAddress? customerAddress = await _repository.GetByIdAsync(id);
+
+            if (customerAddress == null)
+            {
+                return DeleteResult.Fail("Could not find CustomerAddress", Results.Enums.ResultFailureType.NotFound);
+            }
+
+            customerAddress.IsDeleted = true;
+
+            await _repository.UpdateAsync();
+
+            return DeleteResult.Ok();
         }
     }
 }

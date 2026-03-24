@@ -18,9 +18,15 @@ namespace Data.Repositories
 
         public async Task<CustomerAddress?> GetByIdAsync(Guid id)
         {
-            CustomerAddress? customerAddress = await _query.FirstOrDefaultAsync(ca => ca.Id == id);
+            CustomerAddress? customerAddress = await _query.Where(ca => ca.IsDeleted == false)
+                                                           .FirstOrDefaultAsync(ca => ca.Id == id);
 
             return customerAddress;
+        }
+
+        public async Task UpdateAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

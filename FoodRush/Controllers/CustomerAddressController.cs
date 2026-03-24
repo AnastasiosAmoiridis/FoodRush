@@ -27,5 +27,17 @@ namespace FoodRush.Controllers
             return HandleResult(response);
         }
 
+        [HttpDelete("delete/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<DeleteResult>> SoftDeleteAsync([FromRoute] Guid id)
+        {
+            DeleteResult response = await _service.SoftDeleteAsync(id);
+
+            return HandleResult(response);
+        }
+
     }
 }
