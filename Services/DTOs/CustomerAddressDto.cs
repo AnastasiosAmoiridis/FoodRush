@@ -1,9 +1,7 @@
-﻿namespace Services.DTOs.Response
+﻿namespace Services.DTOs
 {
-    public class CustomerAddressResponseDto
+    public class CustomerAddressDto
     {
-        public Guid Id { get; set; }
-
         public required string City { get; set; }
 
         public required string Street { get; set; }
@@ -18,10 +16,6 @@
 
         public string? DoorbellName { get; set; }
 
-        public string? Instructions { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public CustomerDto Customer { get; set; }
+        public string? Instructions { get; set; }     
     }
 }
