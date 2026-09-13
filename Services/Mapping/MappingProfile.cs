@@ -12,7 +12,9 @@ namespace Services.Mapping
         {
             CreateMap<Brand, BrandDto>();
 
-            CreateMap<CustomerAddress, CustomerAddressResponseDto>();
+            CreateMap<CustomerAddress, CustomerAddressResponseDto>().ReverseMap();
+
+            CreateMap<CustomerAddressDto, CustomerAddress>();
         }
     }
 }
