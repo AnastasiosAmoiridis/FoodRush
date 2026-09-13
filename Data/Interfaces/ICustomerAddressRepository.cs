@@ -6,6 +6,8 @@ namespace Data.Interfaces
     {
         public Task<CustomerAddress?> GetByIdAsync(Guid id);
 
+        public Task AddAsync(CustomerAddress customerAddress);
+
         public Task UpdateAsync();
     }
 }

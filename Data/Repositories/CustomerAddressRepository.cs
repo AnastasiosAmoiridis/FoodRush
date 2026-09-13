@@ -16,6 +16,12 @@ namespace Data.Repositories
             _query = _context.CustomerAddresses;
         }
 
+        public async Task AddAsync(CustomerAddress customerAddress)
+        {
+            _context.Add(customerAddress);
+            await UpdateAsync();
+        }
+
         public async Task<CustomerAddress?> GetByIdAsync(Guid id)
         {
             CustomerAddress? customerAddress = await _query.Where(ca => ca.IsDeleted == false)
