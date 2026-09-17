@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 using Services;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -85,6 +86,10 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Enter 'Bearer' followed by your JWT token"
     });
+
+    var documentationFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var documentationFile = Path.Combine(AppContext.BaseDirectory, documentationFileName);
+    options.IncludeXmlComments(documentationFile);
 
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
