@@ -2,6 +2,7 @@
 using Services.DTOs;
 using Services.Interfaces;
 using Results;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodRush.Controllers
 {
@@ -17,6 +18,7 @@ namespace FoodRush.Controllers
         }
 
         [HttpGet("{name}")]
+        [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -29,6 +31,7 @@ namespace FoodRush.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,6 +55,7 @@ namespace FoodRush.Controllers
         }
 
         [HttpPut("activate/{id}")]
+        [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
