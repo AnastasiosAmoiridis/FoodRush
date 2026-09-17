@@ -20,6 +20,7 @@ namespace FoodRush.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -32,6 +33,7 @@ namespace FoodRush.Controllers
         }
 
         [HttpPost("customerAddress")]
+        [Authorize]
         [Produces("application/json")]       
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,7 +46,8 @@ namespace FoodRush.Controllers
             return HandleResult(response);
         }
 
-        [HttpDelete("delete/{id}")]        
+        [HttpDelete("delete/{id}")]
+        [Authorize]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
