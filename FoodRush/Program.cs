@@ -49,6 +49,13 @@ builder.Services.AddAuthentication(options =>
 
         options.Events = new JwtBearerEvents
         {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["AccessToken"];
+
+                return Task.CompletedTask;
+            },
+
             OnAuthenticationFailed = context =>
             {
                 if (context.Exception != null && context.Exception.GetType() == typeof(SecurityTokenExpiredException))
