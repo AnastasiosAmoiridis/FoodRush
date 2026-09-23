@@ -1,5 +1,6 @@
 using Data;
 using FoodRush;
+using FoodRush.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -106,6 +107,8 @@ builder.Services.AddData(appConnectionString, authConnectionString);
 builder.Services.AddServices();
 
 builder.Services.AddRepositories();
+
+builder.Services.AddApplicationOptions(builder.Configuration);
 
 var app = builder.Build();
 
