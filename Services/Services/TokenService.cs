@@ -1,7 +1,9 @@
 ﻿using Data.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Models.Entities.Auth;
+using Models.Options.Auth;
 using Results;
 using Services.DTOs;
 using Services.Interfaces;
@@ -38,27 +40,28 @@ namespace Services.Services
 
     internal class AccessTokenUtils
     {
-        private readonly IConfiguration _configuration;
+        private readonly AuthOptions _authOptions;
 
         private readonly TokenValidationParameters _tokenValidationParameters;
 
-        public AccessTokenUtils(IConfiguration configuration)
+        public AccessTokenUtils(AuthOptions options)
         {
-            _configuration = configuration;
+            _authOptions = options;
 
             _tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Auth:JWT:SigningKey"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authOptions.JWT.SigningKey)),
 
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["Auth:JWT:ValidIssuer"],
+                ValidIssuer = _authOptions.JWT.ValidIssuer,
 
                 ValidateAudience = true,
                 ValidateLifetime = false, // ignore expiration
                 ClockSkew = TimeSpan.Zero
             };
         }
+
         public JwtSecurityToken ParseAccessToken(string token)
         {
             JwtSecurityTokenHandler handeler = new JwtSecurityTokenHandler();
@@ -94,20 +97,18 @@ namespace Services.Services
 
         private readonly IAuthRepository _authRepository;
 
-        private readonly IConfiguration _configuration;
+        private readonly AuthOptions _authOptions;
 
-        public TokenService(ITokenRepository repository, IAuthRepository authRepository, IConfiguration configuration)
+        public TokenService(ITokenRepository repository, IAuthRepository authRepository, IOptions<AuthOptions> options)
         {
             _repository = repository;
             _authRepository = authRepository;
-            _configuration = configuration;
+            _authOptions = options.Value;
         }
 
         public async Task<AccessTokenWithRawDto> GenerateAccessTokenForUser(FoodRushIdentityUser user)
         {
-            string secretKey = _configuration.GetValue<string>("Auth:JWT:SigningKey");
-
-            SymmetricSecurityKey signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            SymmetricSecurityKey signKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authOptions.JWT.SigningKey));
 
             SigningCredentials credentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256);
 
@@ -115,15 +116,15 @@ namespace Services.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName),             
+                new Claim(ClaimTypes.Name, user.UserName),
             };
 
             JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration.GetValue<string>("Auth:Token:Issuer"),
-                audience: _configuration.GetValue<string>("Auth:Token:Audience"),
+                issuer: _authOptions.Token.Issuer,
+                audience: _authOptions.Token.Audience,
                 claims: claims,
                 notBefore: null,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTime.UtcNow.AddMinutes(_authOptions.Token.AccessTokenExpirationMinutes),
                 signingCredentials: credentials
             );
 
@@ -180,7 +181,7 @@ namespace Services.Services
                 return Result<TokensDto>.Fail("Invalid refresh token", Results.Enums.ResultFailureType.Authorization);
             }
 
-            AccessTokenUtils accessTokenUtils = new AccessTokenUtils(_configuration);
+            AccessTokenUtils accessTokenUtils = new AccessTokenUtils(_authOptions);
 
             bool isAccessTokenValid = accessTokenUtils.IsAccessTokenValid(oldTokens.AcessToken);
             if (!isAccessTokenValid)
