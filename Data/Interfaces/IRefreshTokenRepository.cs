@@ -2,11 +2,11 @@
 
 namespace Data.Interfaces
 {
-    public interface ITokenRepository
+    public interface IRefreshTokenRepository
     {
         public Task SaveChangesAsync();
 
-        public Task AddTokenAsync(RefreshToken token);
+        public Task AddRefreshTokenAsync(RefreshToken token);
 
         public Task<RefreshToken?> GetAsync(string token);
     }

@@ -34,7 +34,7 @@ namespace Data
 
             services.AddScoped<IAuthRepository, AuthRepository>();
 
-            services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 

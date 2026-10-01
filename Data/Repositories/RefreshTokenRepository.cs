@@ -4,26 +4,25 @@ using Models.Entities.Auth;
 
 namespace Data.Repositories
 {
-    public class TokenRepository : ITokenRepository
+    public class RefreshTokenRepository : IRefreshTokenRepository
     {
         private readonly AuthDbContext _context;
         private readonly IQueryable _query;
 
-        public TokenRepository(AuthDbContext context)
+        public RefreshTokenRepository(AuthDbContext context)
         {
             _context = context;
             _query = _context.RefreshTokens;
         }
 
-        public async Task AddTokenAsync(RefreshToken token)
+        public async Task AddRefreshTokenAsync(RefreshToken token)
         {
-            await _context.RefreshTokens.AddAsync(token);   
-            await _context.SaveChangesAsync();
+            await _context.RefreshTokens.AddAsync(token);            
         }
 
         public async Task<RefreshToken?> GetAsync(string token)
         {
-            RefreshToken? refreshToken = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
+            RefreshToken? refreshToken = await _context.RefreshTokens.Include(t => t.IdentityUser).FirstOrDefaultAsync(t => t.Token == token);
             return refreshToken;
         }
 
