@@ -15,6 +15,8 @@ namespace Services.Mapping
             CreateMap<CustomerAddress, CustomerAddressResponseDto>().ReverseMap();
 
             CreateMap<CustomerAddressDto, CustomerAddress>();
+
+            CreateMap<TokensDto, RefreshTokenResponseDto>();
         }
     }
 }
