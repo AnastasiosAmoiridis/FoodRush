@@ -6,7 +6,8 @@ namespace Services.Interfaces
 {
     public interface IRefreshTokenService
     {
-        public Task<RefreshTokenWithRawDto> RotateRefreshToken(string rawActiveToken, string? reson = null);
+        public Task<Result<RefreshTokenWithRawDto>> RotateRefreshToken(string rawActiveToken, string? reason = null);       
 
+        public Task<RefreshTokenWithRawDto> CreateRefreshTokenForUserAsync(FoodRushIdentityUser user); 
     }
 }

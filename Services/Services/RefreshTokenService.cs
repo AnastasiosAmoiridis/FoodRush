@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Options;
 using Models.Entities.Auth;
 using Models.Options.Auth;
+using Results;
+using Results.Enums;
 using Services.DTOs;
 using Services.Interfaces;
 
@@ -19,24 +21,44 @@ namespace Services.Services
             _authOptions = options.Value;
         }
 
-        public async Task<RefreshTokenWithRawDto> RotateRefreshToken(string rawActiveToken, string? reson = null)
+        public async Task<Result<RefreshTokenWithRawDto>> RotateRefreshToken(string rawActiveToken, string? reason = null)
         {
             string hashedRefreshToken = RefreshTokenUtils.HashRefreshToken(rawActiveToken);
 
-            RefreshToken? activeToken = await _repository.GetAsync(hashedRefreshToken) ??
-                                              throw new NullReferenceException("Could not find the provided 'active' token");
+            RefreshToken? activeToken = await _repository.GetAsync(hashedRefreshToken);
 
-            FoodRushIdentityUser? user = activeToken.IdentityUser ??
-                                         throw new NullReferenceException("Could not find an associated user for the provided 'active' token");
+            if (activeToken == null)
+            {
+                return Result<RefreshTokenWithRawDto>.Fail("Invalid refresh token", ResultFailureType.Authorization);
+            }
+
+            FoodRushIdentityUser? user = activeToken.IdentityUser;
+
+            if (user == null)
+            {
+                return Result<RefreshTokenWithRawDto>.Fail("Invalid refresh token", ResultFailureType.Authorization);
+            }
 
             RefreshTokenWithRawDto newToken = GenerateRefreshTokenForUser(user);
 
-            RefreshTokenUtils.MarkRefreshTokenAsReplaced(activeToken, newToken.RefreshToken, reson);
+            RefreshTokenUtils.MarkRefreshTokenAsReplaced(activeToken, newToken.RefreshToken, reason);
+
             await _repository.AddRefreshTokenAsync(newToken.RefreshToken);
 
             await _repository.SaveChangesAsync();
 
-            return newToken;
+            return Result<RefreshTokenWithRawDto>.Ok(newToken);
+        }
+
+        public async Task<RefreshTokenWithRawDto> CreateRefreshTokenForUserAsync(FoodRushIdentityUser user)
+        {
+            RefreshTokenWithRawDto newRefreshToken = GenerateRefreshTokenForUser(user);
+
+            await _repository.AddRefreshTokenAsync(newRefreshToken.RefreshToken);
+
+            await _repository.SaveChangesAsync();
+
+            return newRefreshToken;
         }
 
         private RefreshTokenWithRawDto GenerateRefreshTokenForUser(FoodRushIdentityUser user)
