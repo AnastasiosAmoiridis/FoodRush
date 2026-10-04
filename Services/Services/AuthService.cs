@@ -1,9 +1,12 @@
 ﻿using Data.Interfaces;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Models.Entities;
 using Models.Entities.Auth;
+using Models.Options.Auth;
 using Results;
+using Results.Enums;
 using Services.DTOs;
 using Services.DTOs.Response;
 using Services.Interfaces;
@@ -17,20 +20,24 @@ namespace Services.Services
 
         private readonly ICustomerRepository _customerRepository;
 
-        private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenService _refreshTokenService;
+
+        private readonly AuthOptions _authOptions;
 
         private readonly UserManager<FoodRushIdentityUser> _userManager;
 
         public AuthService(
             IAuthRepository repository,
             ICustomerRepository customerRepository,
-            ITokenService tokenService,
+            IRefreshTokenService refreshTokenService,
+            IOptions<AuthOptions> authOptions,
             UserManager<FoodRushIdentityUser> userManager)
         {
 
             _repository = repository;
             _customerRepository = customerRepository;
-            _tokenService = tokenService;
+            _refreshTokenService = refreshTokenService;
+            _authOptions = authOptions.Value;
             _userManager = userManager;
         }
 
@@ -48,13 +55,35 @@ namespace Services.Services
                 return Result<TokensResponseDto>.Fail("Invalid email or password", Results.Enums.ResultFailureType.Authentication);
             }
 
-            AccessTokenWithRawDto accessToken = await _tokenService.GenerateAccessTokenForUser(user);
-            RefreshTokenWithRawDto refreshToken = await _tokenService.GenerateAndRotateRefreshTokenForUser(user, "Replaced by new token at login");
+            AccessTokenUtils accessTokenUtils = new AccessTokenUtils(_authOptions);
+            AccessTokenWithRawDto accessToken = accessTokenUtils.GenerateAccessTokenForUser(user);
+
+            RefreshTokenWithRawDto refreshToken = await _refreshTokenService.CreateRefreshTokenForUserAsync(user);
 
             return Result<TokensResponseDto>.Ok(new TokensResponseDto
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
+            });
+        }
+
+        public async Task<Result<TokensDto>> RefreshAccessTokenAsync(string refreshToken)
+        {
+            Result<RefreshTokenWithRawDto> rotateRefreshTokenResponse = await _refreshTokenService.RotateRefreshToken(refreshToken, null);
+            if (!rotateRefreshTokenResponse.Success)
+            {
+                return Result<TokensDto>.Fail(rotateRefreshTokenResponse.ErrorDetails, Enum.Parse<ResultFailureType>(rotateRefreshTokenResponse.FailureType));
+            }
+
+            FoodRushIdentityUser user = rotateRefreshTokenResponse.Item!.RefreshToken.IdentityUser;
+
+            AccessTokenUtils accessTokenUtil = new AccessTokenUtils(_authOptions);
+            AccessTokenWithRawDto newAccessToken = accessTokenUtil.GenerateAccessTokenForUser(user);
+
+            return Result<TokensDto>.Ok(new TokensDto
+            {
+                AcessToken = newAccessToken.Token,
+                RefreshToken = rotateRefreshTokenResponse.Item.Token
             });
         }
 
