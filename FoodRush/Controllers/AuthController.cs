@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using FoodRush.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Results;
 using Results.Enums;
@@ -14,12 +16,15 @@ namespace FoodRush.Controllers
     {
         private readonly IAuthService _service;
 
-        private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenService _tokenService;
 
-        public AuthController(IAuthService service, ITokenService tokenService)
+        private readonly IMapper _mapper;
+
+        public AuthController(IAuthService service, IRefreshTokenService tokenService, IMapper mapper)
         {
             _service = service;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -81,11 +86,22 @@ namespace FoodRush.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Result<TokensDto>>> RefreshAccessTokenAsync([FromBody] TokensDto oldTokens)
+        public async Task<ActionResult<Result<RefreshTokenResponseDto>>> RefreshAccessTokenAsync([FromBody] string refreshToken)
         {
-            Result<TokensDto> response = await _tokenService.RefreshAccessTokenAsync(oldTokens);
+            Result<TokensDto> response = await _service.RefreshAccessTokenAsync(refreshToken);
 
-            return HandleResult(response);
+            if (response.Success)
+            {
+                return HandleResult(
+                    Result<RefreshTokenResponseDto>.Ok(
+                        _mapper.Map<RefreshTokenResponseDto>(response.Item)));
+            }
+
+            return HandleResult(
+                Result<RefreshTokenResponseDto>.Fail(
+                    response.ErrorDetails,
+                    Enum.Parse<ResultFailureType>(response.FailureType)));           
         }
     }
 }
+
